@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mariglen Qose | Dimoudis Seashells Dashboard</title>
+  <title>Αφοί Δημούδη | Dashboard Μεροκάματων</title>
   <style>
     :root{
       --bg:#07101f;
@@ -293,10 +293,10 @@
   <main class="wrap">
     <div class="top">
       <div class="brand">
-        <h1>Mariglen Qose Dashboard</h1>
-        <p>Dimoudis Seashells Center • Μεροκάματα / Φορτία / Γόνος / Διάφορα</p>
+        <h1>Αφοί Δημούδη</h1>
+        <p>Dashboard εργαζομένων • Μεροκάματα / Φορτία / Γόνος / Διάφορα</p>
       </div>
-      <div class="pill">🌊 Login / Register System</div>
+      <div class="pill">🌊 Μεροκάματα / Login System</div>
     </div>
 
     <section id="authScreen" class="auth-grid">
@@ -462,33 +462,29 @@
 
             <div class="panel" style="margin-top:18px">
               <h3 class="section-title">✅ Πληρωμές</h3>
-              <p class="section-note">Μπορείς να δηλώσεις πληρωμένο μία συγκεκριμένη ημέρα και είδος μεροκάματου ή όλο τον μήνα.</p>
+              <p class="section-note">Μπορείς να δηλώσεις πληρωμένο ή απλήρωτο μία συγκεκριμένη ημέρα και κατηγορία ή ολόκληρο τον μήνα.</p>
               <div class="form-grid">
                 <div>
                   <label>Ημερομηνία πληρωμής</label>
                   <input type="date" id="paymentDate">
                 </div>
                 <div>
-                  <label>Είδος για πληρωμή</label>
+                  <label>Κατηγορία πληρωμής</label>
                   <select id="paymentType">
-                    <option value="__all">Όλα τα είδη αυτής της ημέρας</option>
-                    <option value="Κανονικό">Κανονικό</option>
-                    <option value="Μισό">Μισό</option>
-                    <option value="Ολόκληρο">Ολόκληρο</option>
-                    <option value="Νυχτερινό">Νυχτερινό</option>
-                    <option value="Κυριακή">Κυριακή</option>
-                    <option value="Αργία">Αργία</option>
-                    <option value="Ρεπό">Ρεπό</option>
-                    <option value="Άλλο">Άλλο</option>
+                    <option value="w">Μεροκάματα</option>
+                    <option value="s">Γόνος</option>
+                    <option value="l">Φορτία</option>
+                    <option value="e">Διάφορα</option>
                   </select>
                 </div>
               </div>
               <div class="button-row">
-                <button id="markPaymentBtn" class="btn" type="button">✅ Πληρώθηκε ημέρα/είδος</button>
+                <button id="markPaymentBtn" class="btn" type="button">✅ Πληρώθηκε ημέρα/κατηγορία</button>
+                <button id="markPaymentUnpaidBtn" class="btn secondary" type="button">↩️ Δεν πληρώθηκε ημέρα/κατηγορία</button>
                 <button id="markMonthPaidBtn" class="btn warning" type="button">✅ Πληρώθηκε όλος ο μήνας</button>
                 <button id="markMonthUnpaidBtn" class="btn secondary" type="button">↩️ Ο μήνας απλήρωτος</button>
               </div>
-              <div class="payhint">Για συγκεκριμένο είδος: βάλε ημερομηνία, διάλεξε είδος και πάτα “Πληρώθηκε ημέρα/είδος”.</div>
+              <div class="payhint">Για συγκεκριμένη ημέρα: βάλε ημερομηνία, διάλεξε Μεροκάματα / Γόνος / Φορτία / Διάφορα και πάτα πληρώθηκε ή δεν πληρώθηκε.</div>
             </div>
 
             <div class="panel" style="margin-top:18px">
@@ -535,7 +531,7 @@
             </table>
             <div id="emptyState" class="empty">Δεν υπάρχει ακόμα καταχώρηση για αυτόν τον μήνα.</div>
           </div>
-          <div class="footer-note">Mariglen Qose • Dimoudis Seashells Center • Professional Management Dashboard</div>
+          <div class="footer-note">Αφοί Δημούδη • Professional Management Dashboard</div>
         </div>
       </div>
     </section>
@@ -670,6 +666,94 @@
     return (Number(r.w)||0) + (Number(r.l)||0) + (Number(r.s)||0) + (Number(r.e)||0);
   }
 
+  const PAYMENT_CATEGORIES = [
+    { key: "w", label: "Μεροκάματα" },
+    { key: "s", label: "Γόνος" },
+    { key: "l", label: "Φορτία" },
+    { key: "e", label: "Διάφορα" }
+  ];
+
+  function categoryAmount(r, key){
+    return Number(r[key]) || 0;
+  }
+
+  function basePaymentStatus(r){
+    return (r.p === "yes" || r.paid === "yes") ? "yes" : "no";
+  }
+
+  function paymentObject(r){
+    const oldObj = r.pay && typeof r.pay === "object"
+      ? r.pay
+      : (r.paid && typeof r.paid === "object" ? r.paid : null);
+    const base = basePaymentStatus(r);
+    return {
+      w: oldObj && oldObj.w ? oldObj.w : base,
+      l: oldObj && oldObj.l ? oldObj.l : base,
+      s: oldObj && oldObj.s ? oldObj.s : base,
+      e: oldObj && oldObj.e ? oldObj.e : base
+    };
+  }
+
+  function ensurePaymentObject(r){
+    const obj = paymentObject(r);
+    r.pay = {
+      w: obj.w === "yes" ? "yes" : "no",
+      l: obj.l === "yes" ? "yes" : "no",
+      s: obj.s === "yes" ? "yes" : "no",
+      e: obj.e === "yes" ? "yes" : "no"
+    };
+    return r.pay;
+  }
+
+  function categoryPaid(r, key){
+    const obj = paymentObject(r);
+    return obj[key] === "yes" ? "yes" : "no";
+  }
+
+  function syncRowPaidStatus(r){
+    const active = PAYMENT_CATEGORIES.filter(cat => categoryAmount(r, cat.key) > 0);
+    if(!active.length){
+      r.p = "no";
+      return;
+    }
+    const obj = ensurePaymentObject(r);
+    r.p = active.every(cat => obj[cat.key] === "yes") ? "yes" : "no";
+  }
+
+  function setCategoryPaid(r, key, status){
+    const obj = ensurePaymentObject(r);
+    obj[key] = status === "yes" ? "yes" : "no";
+    syncRowPaidStatus(r);
+  }
+
+  function setAllCategoriesPaid(r, status){
+    PAYMENT_CATEGORIES.forEach(cat => setCategoryPaid(r, cat.key, status));
+    syncRowPaidStatus(r);
+  }
+
+  function isRecordFullyPaid(r){
+    const active = PAYMENT_CATEGORIES.filter(cat => categoryAmount(r, cat.key) > 0);
+    if(!active.length) return false;
+    return active.every(cat => categoryPaid(r, cat.key) === "yes");
+  }
+
+  function paymentSummaryHtml(r){
+    const parts = PAYMENT_CATEGORIES
+      .filter(cat => categoryAmount(r, cat.key) > 0)
+      .map(cat => {
+        const paid = categoryPaid(r, cat.key) === "yes";
+        return `<div>${cat.label}: <span class="pay-badge ${paid ? "ispaid" : "notpaid"}">${paid ? "Πληρώθηκε" : "Απλήρωτο"}</span></div>`;
+      });
+    return parts.join("") || "-";
+  }
+
+  function paymentSummaryText(r){
+    const parts = PAYMENT_CATEGORIES
+      .filter(cat => categoryAmount(r, cat.key) > 0)
+      .map(cat => `${cat.label}: ${categoryPaid(r, cat.key) === "yes" ? "Ναι" : "Όχι"}`);
+    return parts.join(" | ") || "-";
+  }
+
   function selectedMonth(){
     return $("monthFilter").value || currentMonthISO();
   }
@@ -734,15 +818,20 @@
       if(l > 0){ loadsDays++; }
       if(s > 0){ spawnDays++; }
       if(e > 0){ extraDays++; }
-      if(total > 0){
-        if(r.p === "yes"){
-          paidTotal += total;
-          paidCount++;
-        }else{
-          unpaidTotal += total;
-          unpaidCount++;
+
+      PAYMENT_CATEGORIES.forEach(cat => {
+        const amount = categoryAmount(r, cat.key);
+        if(amount > 0){
+          if(categoryPaid(r, cat.key) === "yes"){
+            paidTotal += amount;
+            paidCount++;
+          }else{
+            unpaidTotal += amount;
+            unpaidCount++;
+          }
         }
-      }
+      });
+
       if(String(r.type).toLowerCase() === "ρεπό" || total === 0){ offDates.add(r.date); }
     });
 
@@ -826,7 +915,9 @@
 
     $("emptyState").style.display = rows.length ? "none" : "block";
 
-    $("tableBody").innerHTML = rows.map(r => `
+    $("tableBody").innerHTML = rows.map(r => {
+      const fullyPaid = isRecordFullyPaid(r);
+      return `
       <tr>
         <td>${escapeHtml(r.date)}</td>
         <td><span class="type-badge">${escapeHtml(r.type || "Κανονικό")}</span></td>
@@ -835,16 +926,17 @@
         <td>${money(r.s)}</td>
         <td>${money(r.e)}</td>
         <td><b>${money(dayTotal(r))}</b></td>
-        <td><span class="pay-badge ${r.p === "yes" ? "ispaid" : "notpaid"}">${r.p === "yes" ? "Πληρώθηκε" : "Απλήρωτο"}</span></td>
+        <td>${paymentSummaryHtml(r)}</td>
         <td>${escapeHtml(r.n || "-")}</td>
         <td>
-          <button class="btn ${r.p === "yes" ? "secondary" : "warning"} smallbtn" type="button" onclick="togglePaid('${r.id}')">${r.p === "yes" ? "↩️" : "✅"}</button>
+          <button class="btn ${fullyPaid ? "secondary" : "warning"} smallbtn" type="button" onclick="togglePaid('${r.id}')">${fullyPaid ? "↩️" : "✅"}</button>
           <button class="btn secondary smallbtn" type="button" onclick="editRecord('${r.id}')">✏️</button>
           <button class="btn danger smallbtn" type="button" onclick="deleteRecord('${r.id}')">🗑️</button>
           <button class="btn warning smallbtn" type="button" onclick="deleteDay('${r.date}')">📅</button>
         </td>
       </tr>
-    `).join("");
+    `;
+    }).join("");
   }
 
   function render(){
@@ -887,6 +979,12 @@
       e: Number($("extra").value) || 0,
       n: $("notes").value.trim(),
       p: $("paidStatus").value || "no",
+      pay: {
+        w: $("paidStatus").value || "no",
+        l: $("paidStatus").value || "no",
+        s: $("paidStatus").value || "no",
+        e: $("paidStatus").value || "no"
+      },
       createdAt: new Date().toISOString()
     };
 
@@ -940,7 +1038,13 @@
       s: Number(spawnValue) || 0,
       e: Number(extraValue) || 0,
       n: notesValue || "",
-      p: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no"
+      p: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no",
+      pay: {
+        w: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no",
+        l: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no",
+        s: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no",
+        e: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no"
+      }
     };
 
     saveRecords(currentUser.id, records);
@@ -952,18 +1056,25 @@
     const records = getRecords(currentUser.id);
     const index = records.findIndex(r => r.id === id);
     if(index < 0) return;
-    records[index].p = records[index].p === "yes" ? "no" : "yes";
+    const nextStatus = isRecordFullyPaid(records[index]) ? "no" : "yes";
+    setAllCategoriesPaid(records[index], nextStatus);
     saveRecords(currentUser.id, records);
     render();
   }
 
-  function markPaymentForDayAndType(){
+  function markPaymentForDayAndCategory(status){
     if(!currentUser) return;
     const dateValue = $("paymentDate").value;
-    const typeValue = $("paymentType").value;
+    const categoryKey = $("paymentType").value;
+    const category = PAYMENT_CATEGORIES.find(cat => cat.key === categoryKey);
 
     if(!dateValue){
       alert("Διάλεξε ημερομηνία πληρωμής.");
+      return;
+    }
+
+    if(!category){
+      alert("Διάλεξε κατηγορία πληρωμής.");
       return;
     }
 
@@ -972,21 +1083,23 @@
 
     records.forEach(r => {
       const sameDate = r.date === dateValue;
-      const sameType = typeValue === "__all" || (r.type || "Κανονικό") === typeValue;
-      if(sameDate && sameType){
-        r.p = "yes";
+      const hasAmount = categoryAmount(r, categoryKey) > 0;
+      if(sameDate && hasAmount){
+        setCategoryPaid(r, categoryKey, status);
         count++;
       }
     });
 
     if(!count){
-      alert("Δεν βρέθηκε καταχώρηση για αυτή την ημέρα και αυτό το είδος.");
+      alert("Δεν βρέθηκε ποσό για " + category.label + " σε αυτή την ημέρα.");
       return;
     }
 
     saveRecords(currentUser.id, records);
     render();
-    alert("Σημειώθηκαν ως πληρωμένες " + count + " καταχωρήσεις.");
+
+    const actionText = status === "yes" ? "πληρωμένες" : "απλήρωτες";
+    alert("Σημειώθηκαν ως " + actionText + " " + count + " καταχωρήσεις για " + category.label + ".");
   }
 
   function markMonthPayment(status){
@@ -995,9 +1108,12 @@
     const records = getRecords(currentUser.id);
     let count = 0;
 
+    const actionText = status === "yes" ? "πληρωμένος" : "απλήρωτος";
+    if(!confirm("Να σημειωθεί ο μήνας " + monthName(month) + " ως " + actionText + ";")) return;
+
     records.forEach(r => {
-      if(String(r.date || "").startsWith(month)){
-        r.p = status;
+      if(String(r.date || "").startsWith(month) && dayTotal(r) > 0){
+        setAllCategoriesPaid(r, status);
         count++;
       }
     });
@@ -1006,9 +1122,6 @@
       alert("Δεν υπάρχουν καταχωρήσεις για αυτόν τον μήνα.");
       return;
     }
-
-    const actionText = status === "yes" ? "πληρωμένος" : "απλήρωτος";
-    if(!confirm("Να σημειωθεί ο μήνας " + monthName(month) + " ως " + actionText + ";")) return;
 
     saveRecords(currentUser.id, records);
     render();
@@ -1080,8 +1193,8 @@
     if(!currentUser) return;
     const records = getRecords(currentUser.id);
 
-    const headers = ["Ημερομηνία","Είδος Μεροκάματου","Μεροκάματο","Φορτία","Γόνος","Διάφορα","Σύνολο Ημέρας","Πληρώθηκε","Σημειώσεις"];
-    const rows = records.map(r => [r.date, r.type || "Κανονικό", r.w, r.l, r.s, r.e, dayTotal(r), r.p === "yes" ? "Ναι" : "Όχι", r.n || ""]);
+    const headers = ["Ημερομηνία","Είδος Μεροκάματου","Μεροκάματο","Φορτία","Γόνος","Διάφορα","Σύνολο Ημέρας","Πληρωμές ανά κατηγορία","Σημειώσεις"];
+    const rows = records.map(r => [r.date, r.type || "Κανονικό", r.w, r.l, r.s, r.e, dayTotal(r), paymentSummaryText(r), r.n || ""]);
     const csv = [headers, ...rows]
       .map(row => row.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(","))
       .join("\n");
@@ -1131,6 +1244,12 @@
           e: Number(r.e) || 0,
           n: r.n || r.notes || "",
           p: (r.p || r.paid) === "yes" ? "yes" : "no",
+          pay: {
+            w: (r.pay && r.pay.w) ? r.pay.w : ((r.paid && typeof r.paid === "object" && r.paid.w) ? r.paid.w : ((r.p || r.paid) === "yes" ? "yes" : "no")),
+            l: (r.pay && r.pay.l) ? r.pay.l : ((r.paid && typeof r.paid === "object" && r.paid.l) ? r.paid.l : ((r.p || r.paid) === "yes" ? "yes" : "no")),
+            s: (r.pay && r.pay.s) ? r.pay.s : ((r.paid && typeof r.paid === "object" && r.paid.s) ? r.paid.s : ((r.p || r.paid) === "yes" ? "yes" : "no")),
+            e: (r.pay && r.pay.e) ? r.pay.e : ((r.paid && typeof r.paid === "object" && r.paid.e) ? r.paid.e : ((r.p || r.paid) === "yes" ? "yes" : "no"))
+          },
           createdAt: r.createdAt || new Date().toISOString()
         }));
 
@@ -1237,7 +1356,8 @@
   });
 
   $("deleteMonthBtn").addEventListener("click", deleteMonth);
-  $("markPaymentBtn").addEventListener("click", markPaymentForDayAndType);
+  $("markPaymentBtn").addEventListener("click", () => markPaymentForDayAndCategory("yes"));
+  $("markPaymentUnpaidBtn").addEventListener("click", () => markPaymentForDayAndCategory("no"));
   $("markMonthPaidBtn").addEventListener("click", () => markMonthPayment("yes"));
   $("markMonthUnpaidBtn").addEventListener("click", () => markMonthPayment("no"));
   $("rangeBtn").addEventListener("click", () => calculateRange(true));
@@ -1248,6 +1368,7 @@
 
   window.addEventListener("load", () => {
     $("date").value = todayISO();
+    $("paymentDate").value = todayISO();
 
     const oldSession = localStorage.getItem("mariglen_session_v1");
     if(oldSession && !localStorage.getItem(SESSION_KEY)){
