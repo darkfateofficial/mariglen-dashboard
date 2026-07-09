@@ -3,109 +3,301 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mariglen Dashboard - Merokamata</title>
+  <title>Mariglen Qose | Dimoudis Seashells Dashboard</title>
   <style>
     :root{
-      --bg:#080d1c; --card:#121a33; --card2:#0f1730; --text:#eef3ff; --muted:#9aa8c7;
-      --accent:#7c3aed; --accentB:#2563eb; --ok:#22c55e; --danger:#ef4444; --border:#263454;
-      --input:#081024;
+      --bg:#07101f;
+      --bg2:#101b35;
+      --card:#121d38;
+      --card2:#0d172e;
+      --soft:#172442;
+      --text:#eef5ff;
+      --muted:#9fb0cf;
+      --line:#2a3a60;
+      --accent:#2dd4bf;
+      --accent2:#38bdf8;
+      --gold:#fbbf24;
+      --danger:#ef4444;
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --purple:#8b5cf6;
+      --shadow:0 18px 60px rgba(0,0,0,.38);
+      --radius:22px;
     }
+
     *{box-sizing:border-box}
     body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:radial-gradient(circle at top,#1b2550 0,#0b1020 45%,#060913 100%);
-      color:var(--text); min-height:100vh; padding:24px;
+      margin:0;
+      min-height:100vh;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(56,189,248,.22), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(139,92,246,.18), transparent 25%),
+        linear-gradient(180deg,#07101f 0%,#0b1225 45%,#050814 100%);
+      padding:22px;
     }
-    .wrap{width:min(1120px,100%); margin:0 auto}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0}
-    .brand{font-size:26px;font-weight:900;letter-spacing:.2px}
-    .badge{color:#c4b5fd;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.35);padding:8px 12px;border-radius:999px;font-size:13px}
-    .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:18px;align-items:start}
+
+    .wrap{width:min(1220px,100%); margin:0 auto;}
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin:16px 0 18px;
+    }
+    .brand h1{margin:0;font-size:28px;letter-spacing:.2px}
+    .brand p{margin:6px 0 0;color:var(--muted)}
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid rgba(45,212,191,.35);
+      background:rgba(45,212,191,.12);
+      color:#ccfbf1;
+      padding:9px 13px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
     .card{
-      background:rgba(18,26,51,.94); border:1px solid var(--border); border-radius:22px;
-      box-shadow:0 20px 80px rgba(0,0,0,.35); overflow:hidden;
+      background:rgba(18,29,56,.94);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
+
+    .auth-grid{
+      display:grid;
+      grid-template-columns:1fr 1.05fr;
+      gap:18px;
+      align-items:stretch;
+      margin-top:36px;
+    }
+
     .hero,.auth,.dashbox{padding:24px}
-    .hero h1{font-size:38px;line-height:1.05;margin:0 0 12px}
+    .hero h2{font-size:38px;line-height:1.05;margin:0 0 12px}
     .hero p,.small{color:var(--muted);line-height:1.55}
     .features{display:grid;gap:10px;margin-top:18px}
-    .feature{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:12px;color:#dbe6ff}
-    .tabs{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:5px;margin-bottom:18px}
-    .tab{flex:1;border:0;border-radius:12px;padding:12px;color:var(--muted);background:transparent;font-weight:800;cursor:pointer}
-    .tab.active{background:var(--accent);color:white}
-    label{display:block;color:#d6def3;font-size:14px;font-weight:800;margin:13px 0 7px}
-    input, textarea, select{
-      width:100%;padding:13px;border-radius:14px;border:1px solid var(--border);background:var(--input);color:var(--text);
-      outline:none;font-size:15px;
+    .feature{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:13px;color:#dce8ff}
+
+    .tabs{
+      display:flex;
+      padding:5px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--card2);
+      margin-bottom:18px;
     }
-    textarea{min-height:92px;resize:vertical}
-    input:focus,textarea:focus,select:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.18)}
+    .tab{
+      flex:1;
+      border:0;
+      border-radius:12px;
+      padding:12px;
+      background:transparent;
+      color:var(--muted);
+      font-weight:900;
+      cursor:pointer;
+    }
+    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#04111f}
+
+    label{
+      display:block;
+      margin:12px 0 7px;
+      color:#dce8ff;
+      font-size:14px;
+      font-weight:900;
+    }
+    input,select,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#071126;
+      color:var(--text);
+      padding:13px;
+      border-radius:14px;
+      outline:none;
+      font-size:15px;
+    }
+    textarea{min-height:88px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(56,189,248,.18)}
+
     .btn{
-      border:0;border-radius:14px;padding:13px 16px;background:linear-gradient(135deg,var(--accent),var(--accentB));
-      color:white;font-weight:900;font-size:15px;cursor:pointer;
+      border:0;
+      border-radius:14px;
+      padding:12px 15px;
+      color:#04111f;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      font-weight:950;
+      cursor:pointer;
+      font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
     }
     .btn.full{width:100%;margin-top:16px}
-    .btn.secondary{background:#334155;border:1px solid var(--border)}
-    .btn.danger{background:#7f1d1d;border:1px solid rgba(239,68,68,.35)}
-    .msg{margin-top:12px;padding:12px;border-radius:14px;display:none;font-size:14px;line-height:1.4}
+    .btn.secondary{background:#243455;color:#eaf2ff;border:1px solid var(--line)}
+    .btn.warning{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#1f1300}
+    .btn.danger{background:#7f1d1d;color:#fee2e2;border:1px solid rgba(239,68,68,.45)}
+    .btn.smallbtn{padding:8px 10px;border-radius:10px;font-size:13px}
+    .msg{margin-top:12px;padding:12px;border-radius:14px;display:none;font-size:14px}
     .msg.ok{display:block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#bbf7d0}
     .msg.err{display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#fecaca}
+
     .dashboard{display:none}
-    .dashhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+    .dashhead{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+      margin-bottom:18px;
+    }
     .dashhead h2{margin:0;font-size:30px}
     .dash-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
-    .stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:16px}
-    .stat span{color:var(--muted);font-size:13px;font-weight:800}
-    .stat b{display:block;font-size:23px;margin-top:6px}
-    .dashgrid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px}
-    .section-title{font-size:20px;font-weight:900;margin:0 0 12px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .tablewrap{overflow:auto;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.03)}
-    table{width:100%;border-collapse:collapse;min-width:720px}
-    th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
-    th{color:#cbd5e1;font-size:13px;background:rgba(255,255,255,.04)}
-    td{color:#eef3ff;font-size:14px}
-    tr:last-child td{border-bottom:0}
-    .pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}
-    .paid{background:rgba(34,197,94,.14);color:#bbf7d0;border:1px solid rgba(34,197,94,.35)}
-    .unpaid{background:rgba(245,158,11,.14);color:#fde68a;border:1px solid rgba(245,158,11,.35)}
-    .empty{color:var(--muted);padding:18px}
-    .note-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:12px}
-    .footer-text{margin-top:14px;color:var(--muted);font-size:12px}
-    @media(max-width:900px){
-      body{padding:14px}
-      .grid,.dashgrid{grid-template-columns:1fr}
-      .stats{grid-template-columns:1fr 1fr}
-      .hero h1{font-size:30px}
-      .dashhead{flex-direction:column}
-      .dash-actions{justify-content:flex-start}
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+      margin:18px 0;
     }
-    @media(max-width:520px){
-      .stats{grid-template-columns:1fr}
-      .row{grid-template-columns:1fr}
-      .brand{font-size:22px}
+    .stat{
+      background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:15px;
+      min-height:98px;
+    }
+    .stat span{color:var(--muted);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.3px}
+    .stat b{display:block;font-size:23px;margin:7px 0 2px}
+    .stat small{color:var(--muted)}
+
+    .panel-grid{
+      display:grid;
+      grid-template-columns:.95fr 1.25fr;
+      gap:18px;
+      align-items:start;
+    }
+    .panel{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+    }
+    .section-title{
+      margin:0 0 6px;
+      font-size:20px;
+      font-weight:950;
+    }
+    .section-note{margin:0 0 14px;color:var(--muted);line-height:1.45}
+    .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .form-grid.three{grid-template-columns:repeat(3,1fr)}
+    .button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+    .report{
+      margin-top:12px;
+      background:#071126;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      color:#dce8ff;
+      line-height:1.55;
+    }
+    .range-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:10px;
+    }
+
+    .table-wrapper{
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:980px;
+    }
+    th,td{
+      padding:12px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      vertical-align:top;
+      font-size:14px;
+    }
+    th{
+      color:#cbd7ee;
+      background:rgba(255,255,255,.055);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    tr:last-child td{border-bottom:0}
+    .type-badge{
+      display:inline-flex;
+      padding:5px 9px;
+      border-radius:999px;
+      background:rgba(56,189,248,.12);
+      border:1px solid rgba(56,189,248,.35);
+      color:#bae6fd;
+      font-weight:900;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .empty{color:var(--muted);padding:18px}
+    .footer-note{margin-top:12px;color:var(--muted);font-size:12px;text-align:center}
+
+    @media(max-width:1000px){
+      .auth-grid,.panel-grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:620px){
+      body{padding:14px}
+      .top,.dashhead{flex-direction:column}
+      .dash-actions{justify-content:flex-start}
+      .stats,.form-grid,.form-grid.three,.range-grid{grid-template-columns:1fr}
+      .hero h2{font-size:30px}
+      .brand h1{font-size:23px}
+    }
+
+    @media print{
+      body{background:white;color:#111;padding:0}
+      .auth-grid,.top .pill,.dash-actions,.panel:first-child,.button-row,.no-print{display:none!important}
+      .dashboard{display:block!important}
+      .card,.panel{box-shadow:none;border:1px solid #ccc;background:white;color:#111}
+      .small,.section-note,.stat small{color:#555}
+      table{min-width:0}
+      th,td{color:#111;border-color:#ccc}
     }
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <div class="top">
-      <div class="brand">Mariglen Dashboard</div>
-      <div class="badge">Merokamata / Login System</div>
+      <div class="brand">
+        <h1>Mariglen Qose Dashboard</h1>
+        <p>Dimoudis Seashells Center • Μεροκάματα / Φορτία / Γόνος / Διάφορα</p>
+      </div>
+      <div class="pill">🌊 Login / Register System</div>
     </div>
 
-    <section id="authScreen" class="grid">
+    <section id="authScreen" class="auth-grid">
       <div class="card hero">
-        <h1>Καλώς ήρθες 👋</h1>
-        <p>Φτιάξε λογαριασμό και μετά μπαίνεις στη σελίδα για να γράφεις τα μεροκάματα, πληρωμές, έξοδα και σημειώσεις.</p>
+        <h2>Καλώς ήρθες 👋</h2>
+        <p>Φτιάξε λογαριασμό και μετά μπαίνεις στο παλιό επαγγελματικό dashboard με όλα τα είδη καταχώρησης.</p>
         <div class="features">
-          <div class="feature">✅ Εγγραφή με email, username, password</div>
-          <div class="feature">✅ Δεν αφήνει δεύτερο λογαριασμό με ίδιο email</div>
-          <div class="feature">✅ Σε πάει κατευθείαν στη σελίδα με τα μεροκάματα</div>
-          <div class="feature">✅ Τα στοιχεία κρατιούνται ξεχωριστά ανά λογαριασμό</div>
+          <div class="feature">✅ Μεροκάματο, Φορτία, Γόνος, Διάφορα</div>
+          <div class="feature">✅ Είδος μεροκάματου</div>
+          <div class="feature">✅ Αναφορά μήνα, καλύτερος μήνας, μέσο μεροκάματο</div>
+          <div class="feature">✅ Backup / Restore / CSV / Εκτύπωση</div>
         </div>
-        <p class="footer-text">Demo σε GitHub Pages: τα δεδομένα αποθηκεύονται στον browser.</p>
+        <p class="small">Τα στοιχεία αποθηκεύονται στον browser για κάθε λογαριασμό ξεχωριστά.</p>
       </div>
 
       <div class="card auth">
@@ -140,386 +332,778 @@
       <div class="card dashbox">
         <div class="dashhead">
           <div>
-            <h2 id="welcome">Τα μεροκάματά μου</h2>
+            <h2 id="welcome">Dashboard</h2>
             <div id="userEmail" class="small"></div>
           </div>
           <div class="dash-actions">
-            <button id="exportBtn" class="btn secondary" type="button">Export CSV</button>
-            <button id="clearBtn" class="btn danger" type="button">Καθαρισμός</button>
-            <button id="logoutBtn" class="btn secondary" type="button">Αποσύνδεση</button>
+            <button id="csvBtn" class="btn secondary" type="button">📊 Export CSV</button>
+            <button id="backupBtn" class="btn secondary" type="button">💾 Backup</button>
+            <label class="btn secondary" style="margin:0">
+              📂 Restore
+              <input id="restoreFile" type="file" accept=".json" style="display:none">
+            </label>
+            <button id="printBtn" class="btn warning" type="button">🖨️ Εκτύπωση</button>
+            <button id="logoutBtn" class="btn danger" type="button">Αποσύνδεση</button>
           </div>
         </div>
 
         <div class="stats">
-          <div class="stat"><span>Σύνολο μεροκάματων</span><b id="totalAmount">0€</b></div>
-          <div class="stat"><span>Πληρωμένα</span><b id="paidAmount">0€</b></div>
-          <div class="stat"><span>Απλήρωτα</span><b id="unpaidAmount">0€</b></div>
-          <div class="stat"><span>Έξοδα</span><b id="expensesAmount">0€</b></div>
+          <div class="stat"><span>Ημέρες εργασίας</span><b id="workDays">0</b><small>Για τον επιλεγμένο μήνα</small></div>
+          <div class="stat"><span>Ρεπό</span><b id="daysOff">0</b><small>Ημέρες χωρίς μεροκάματο</small></div>
+          <div class="stat"><span>Μεροκάματα</span><b id="totalWage">0€</b><small id="wageDays">0 μέρες</small></div>
+          <div class="stat"><span>Φορτία</span><b id="totalLoads">0€</b><small id="loadsDays">0 μέρες</small></div>
+          <div class="stat"><span>Γόνος</span><b id="totalSpawn">0€</b><small id="spawnDays">0 μέρες</small></div>
+          <div class="stat"><span>Διάφορα</span><b id="totalExtra">0€</b><small id="extraDays">0 μέρες</small></div>
+          <div class="stat"><span>Συνολικά χρήματα</span><b id="grandTotal">0€</b><small id="totalCategoryDays">0 καταχωρήσεις</small></div>
+          <div class="stat"><span>Καθαρό σύνολο</span><b id="netTotal">0€</b><small>Μεροκάματα + Φορτία + Γόνος + Διάφορα</small></div>
+          <div class="stat"><span>Μέσο μεροκάματο</span><b id="avgDay">0€</b><small>Μόνο από μεροκάματα</small></div>
+          <div class="stat"><span>Καλύτερος μήνας</span><b id="bestMonth">-</b><small>Με βάση το σύνολο</small></div>
         </div>
 
-        <div class="dashgrid">
-          <div>
-            <div class="note-card">
-              <h3 class="section-title">Νέο μεροκάματο</h3>
-              <form id="entryForm">
-                <label>Ημερομηνία</label>
-                <input id="entryDate" type="date" required>
+        <div class="panel-grid">
+          <div class="panel">
+            <h3 class="section-title">📝 Νέα καταχώρηση</h3>
+            <p class="section-note">Συμπλήρωσε την ημέρα και τα ποσά όπως στο παλιό αρχείο.</p>
 
-                <label>Δουλειά / Περιγραφή</label>
-                <input id="entryJob" type="text" placeholder="π.χ. οικοδομή, delivery, συνεργείο" required>
-
-                <div class="row">
-                  <div>
-                    <label>Ποσό μεροκάματου (€)</label>
-                    <input id="entryAmount" type="number" min="0" step="0.01" placeholder="50" required>
-                  </div>
-                  <div>
-                    <label>Ώρες</label>
-                    <input id="entryHours" type="number" min="0" step="0.25" placeholder="8">
-                  </div>
+            <form id="recordForm">
+              <div class="form-grid">
+                <div>
+                  <label>Ημερομηνία</label>
+                  <input type="date" id="date" required>
                 </div>
-
-                <div class="row">
-                  <div>
-                    <label>Πληρώθηκε;</label>
-                    <select id="entryPaid">
-                      <option value="yes">Ναι</option>
-                      <option value="no">Όχι</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Έξοδα (€)</label>
-                    <input id="entryExpenses" type="number" min="0" step="0.01" placeholder="0">
-                  </div>
+                <div>
+                  <label>Είδος μεροκάματου</label>
+                  <select id="wageType">
+                    <option value="Κανονικό">Κανονικό</option>
+                    <option value="Μισό">Μισό</option>
+                    <option value="Ολόκληρο">Ολόκληρο</option>
+                    <option value="Νυχτερινό">Νυχτερινό</option>
+                    <option value="Κυριακή">Κυριακή</option>
+                    <option value="Αργία">Αργία</option>
+                    <option value="Ρεπό">Ρεπό</option>
+                    <option value="Άλλο">Άλλο</option>
+                  </select>
                 </div>
-
-                <label>Σημειώσεις / Άλλα</label>
-                <textarea id="entryNotes" placeholder="π.χ. πήρα προκαταβολή, χρωστάει, υλικά, βενζίνες..."></textarea>
-
-                <button class="btn full" type="submit">Αποθήκευση</button>
-              </form>
-            </div>
-          </div>
-
-          <div>
-            <div class="note-card" style="margin-top:0">
-              <h3 class="section-title">Λίστα μεροκάματων</h3>
-              <div class="tablewrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Ημερομηνία</th>
-                      <th>Δουλειά</th>
-                      <th>Ποσό</th>
-                      <th>Ώρες</th>
-                      <th>Έξοδα</th>
-                      <th>Κατάσταση</th>
-                      <th>Σημειώσεις</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="entriesBody"></tbody>
-                </table>
-                <div id="emptyState" class="empty">Δεν έχεις γράψει ακόμα μεροκάματο.</div>
+                <div>
+                  <label>Μεροκάματο (€)</label>
+                  <input type="number" id="wage" min="0" step="0.01" placeholder="π.χ. 60">
+                </div>
+                <div>
+                  <label>Φορτία (€)</label>
+                  <input type="number" id="loads" min="0" step="0.01" placeholder="π.χ. 30">
+                </div>
+                <div>
+                  <label>Γόνος (€)</label>
+                  <input type="number" id="spawn" min="0" step="0.01" placeholder="π.χ. 20">
+                </div>
+                <div>
+                  <label>Διάφορα (€)</label>
+                  <input type="number" id="extra" min="0" step="0.01" placeholder="π.χ. 10">
+                </div>
               </div>
+
+              <label>Σημειώσεις</label>
+              <textarea id="notes" placeholder="π.χ. φόρτωμα, προκαταβολή, βενζίνες, παρατήρηση..."></textarea>
+
+              <div class="button-row">
+                <button class="btn" type="submit">➕ Καταχώρηση</button>
+                <button id="resetFormBtn" class="btn secondary" type="button">Καθάρισμα φόρμας</button>
+              </div>
+            </form>
+
+            <div class="report">
+              <b>💡 Τι μετράει:</b><br>
+              Μεροκάματα + Φορτία + Γόνος + Διάφορα = Σύνολο ημέρας.
             </div>
           </div>
+
+          <div>
+            <div class="panel">
+              <h3 class="section-title">📅 Μήνας πίνακα / Αναφορά μήνα</h3>
+              <p class="section-note">Ο πίνακας δείχνει μόνο τον μήνα που επιλέγεις.</p>
+              <div class="form-grid">
+                <div>
+                  <label>Επιλογή μήνα</label>
+                  <select id="monthFilter"></select>
+                </div>
+                <div>
+                  <label>Αναζήτηση ημέρας</label>
+                  <input type="date" id="searchDate">
+                </div>
+              </div>
+              <div class="button-row">
+                <button id="clearSearchBtn" class="btn secondary" type="button">Καθάρισμα αναζήτησης</button>
+                <button id="deleteMonthBtn" class="btn danger" type="button">🗑️ Διαγραφή μήνα</button>
+              </div>
+              <div id="report" class="report"></div>
+            </div>
+
+            <div class="panel" style="margin-top:18px">
+              <h3 class="section-title">💰 Σύνολα όλων των μηνών ή διαστήματος</h3>
+              <p class="section-note">Δες σύνολο για όλο το αρχείο ή για συγκεκριμένες ημερομηνίες.</p>
+              <div class="range-grid">
+                <div>
+                  <label>Από</label>
+                  <input type="date" id="rangeFrom">
+                </div>
+                <div>
+                  <label>Έως</label>
+                  <input type="date" id="rangeTo">
+                </div>
+                <div>
+                  <label>&nbsp;</label>
+                  <button id="rangeBtn" class="btn full" type="button" style="margin:0">Υπολογισμός</button>
+                </div>
+              </div>
+              <div id="rangeReport" class="report"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:18px">
+          <h3 class="section-title">📋 Ημερήσιες εγγραφές</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ημερομηνία</th>
+                  <th>Είδος</th>
+                  <th>Μεροκάματο</th>
+                  <th>Φορτία</th>
+                  <th>Γόνος</th>
+                  <th>Διάφορα</th>
+                  <th>Σύνολο ημέρας</th>
+                  <th>Σημειώσεις</th>
+                  <th>Ενέργειες</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty">Δεν υπάρχει ακόμα καταχώρηση για αυτόν τον μήνα.</div>
+          </div>
+          <div class="footer-note">Mariglen Qose • Dimoudis Seashells Center • Professional Management Dashboard</div>
         </div>
       </div>
     </section>
   </main>
 
-  <script>
-    const USERS_KEY = "mariglen_users_v2";
-    const OLD_USERS_KEY = "mariglen_users_v1";
-    const SESSION_KEY = "mariglen_session_v2";
+<script>
+  const USERS_KEY = "mariglen_users_v2";
+  const OLD_USERS_KEY = "mariglen_users_v1";
+  const SESSION_KEY = "mariglen_session_v2";
 
-    const $ = (id) => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
+  let currentUser = null;
 
-    function normalizeEmail(email){
-      return String(email || "").trim().toLowerCase();
-    }
+  function normalizeEmail(email){
+    return String(email || "").trim().toLowerCase();
+  }
 
-    function todayISO(){
-      const d = new Date();
-      d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-      return d.toISOString().slice(0,10);
-    }
+  function todayISO(){
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0,10);
+  }
 
-    function getUsers(){
-      try {
-        let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-        if(!users.length){
-          const oldUsers = JSON.parse(localStorage.getItem(OLD_USERS_KEY)) || [];
-          if(oldUsers.length){
-            users = oldUsers;
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-          }
+  function currentMonthISO(){
+    return todayISO().slice(0,7);
+  }
+
+  function monthName(monthValue){
+    if(!monthValue) return "-";
+    const [y,m] = monthValue.split("-");
+    const names = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"];
+    return (names[Number(m)-1] || m) + " " + y;
+  }
+
+  function getUsers(){
+    try{
+      let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+      if(!users.length){
+        const oldUsers = JSON.parse(localStorage.getItem(OLD_USERS_KEY)) || [];
+        if(oldUsers.length){
+          users = oldUsers;
+          localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
-        return users;
-      } catch {
-        return [];
       }
+      return users;
+    }catch{
+      return [];
     }
+  }
 
-    function saveUsers(users){
-      localStorage.setItem(USERS_KEY, JSON.stringify(users));
-    }
+  function saveUsers(users){
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
 
-    function entriesKey(userId){
-      return "mariglen_entries_" + userId;
-    }
+  function recordsKey(userId){
+    return "mariglen_mymussels_records_" + userId;
+  }
 
-    function getEntries(userId){
-      try { return JSON.parse(localStorage.getItem(entriesKey(userId))) || []; }
-      catch { return []; }
-    }
+  function legacyEntriesKey(userId){
+    return "mariglen_entries_" + userId;
+  }
 
-    function saveEntries(userId, entries){
-      localStorage.setItem(entriesKey(userId), JSON.stringify(entries));
-    }
+  function getRecords(userId){
+    try{
+      let records = JSON.parse(localStorage.getItem(recordsKey(userId))) || [];
 
-    async function hashPassword(password){
-      const data = new TextEncoder().encode(password);
-      const digest = await crypto.subtle.digest("SHA-256", data);
-      return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    function showMessage(text, type){
-      const msg = $("message");
-      msg.textContent = text;
-      msg.className = "msg " + type;
-    }
-
-    function clearMessage(){
-      const msg = $("message");
-      msg.textContent = "";
-      msg.className = "msg";
-    }
-
-    function setTab(mode){
-      clearMessage();
-      const login = mode === "login";
-      $("loginTab").classList.toggle("active", login);
-      $("registerTab").classList.toggle("active", !login);
-      $("loginForm").style.display = login ? "block" : "none";
-      $("registerForm").style.display = login ? "none" : "block";
-    }
-
-    function escapeHtml(str){
-      return String(str || "").replace(/[&<>"']/g, m => ({
-        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
-      }[m]));
-    }
-
-    function money(n){
-      return (Number(n) || 0).toLocaleString("el-GR", {minimumFractionDigits:2, maximumFractionDigits:2}) + "€";
-    }
-
-    let currentUser = null;
-
-    function showDashboard(user){
-      currentUser = user;
-      $("authScreen").style.display = "none";
-      $("dashboard").style.display = "block";
-      $("welcome").textContent = "Τα μεροκάματα του/της " + user.username + " 👋";
-      $("userEmail").textContent = user.email;
-      $("entryDate").value = todayISO();
-      renderEntries();
-    }
-
-    function showAuth(){
-      currentUser = null;
-      $("authScreen").style.display = "grid";
-      $("dashboard").style.display = "none";
-      setTab("login");
-    }
-
-    function renderEntries(){
-      if(!currentUser) return;
-      const entries = getEntries(currentUser.id).sort((a,b) => String(b.date).localeCompare(String(a.date)));
-      const body = $("entriesBody");
-      const empty = $("emptyState");
-
-      let total = 0, paid = 0, unpaid = 0, expenses = 0;
-
-      for(const e of entries){
-        const amount = Number(e.amount) || 0;
-        const exp = Number(e.expenses) || 0;
-        total += amount;
-        expenses += exp;
-        if(e.paid === "yes") paid += amount;
-        else unpaid += amount;
+      if(!records.length){
+        const oldEntries = JSON.parse(localStorage.getItem(legacyEntriesKey(userId))) || [];
+        if(oldEntries.length){
+          records = oldEntries.map(e => ({
+            id: e.id || Date.now().toString() + Math.random().toString(16).slice(2),
+            date: e.date || todayISO(),
+            type: e.type || "Κανονικό",
+            w: Number(e.w ?? e.amount) || 0,
+            l: Number(e.l) || 0,
+            s: Number(e.s) || 0,
+            e: Number(e.e ?? e.expenses) || 0,
+            n: [e.job, e.notes].filter(Boolean).join(" - "),
+            createdAt: e.createdAt || new Date().toISOString()
+          }));
+          saveRecords(userId, records);
+        }
       }
 
-      $("totalAmount").textContent = money(total);
-      $("paidAmount").textContent = money(paid);
-      $("unpaidAmount").textContent = money(unpaid);
-      $("expensesAmount").textContent = money(expenses);
-
-      empty.style.display = entries.length ? "none" : "block";
-
-      body.innerHTML = entries.map(e => `
-        <tr>
-          <td>${escapeHtml(e.date)}</td>
-          <td>${escapeHtml(e.job)}</td>
-          <td><b>${money(e.amount)}</b></td>
-          <td>${escapeHtml(e.hours || "-")}</td>
-          <td>${money(e.expenses)}</td>
-          <td><span class="pill ${e.paid === "yes" ? "paid" : "unpaid"}">${e.paid === "yes" ? "Πληρώθηκε" : "Απλήρωτο"}</span></td>
-          <td>${escapeHtml(e.notes || "-")}</td>
-          <td><button class="btn danger" type="button" onclick="deleteEntry('${e.id}')">Σβήσιμο</button></td>
-        </tr>
-      `).join("");
+      return records;
+    }catch{
+      return [];
     }
+  }
 
-    function deleteEntry(id){
-      if(!currentUser) return;
-      const ok = confirm("Να σβηστεί αυτό το μεροκάματο;");
-      if(!ok) return;
-      const entries = getEntries(currentUser.id).filter(e => e.id !== id);
-      saveEntries(currentUser.id, entries);
-      renderEntries();
+  function saveRecords(userId, records){
+    localStorage.setItem(recordsKey(userId), JSON.stringify(records));
+  }
+
+  async function hashPassword(password){
+    const data = new TextEncoder().encode(password);
+    const digest = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2,"0")).join("");
+  }
+
+  function showMessage(text,type){
+    $("message").textContent = text;
+    $("message").className = "msg " + type;
+  }
+
+  function clearMessage(){
+    $("message").textContent = "";
+    $("message").className = "msg";
+  }
+
+  function setTab(mode){
+    clearMessage();
+    const login = mode === "login";
+    $("loginTab").classList.toggle("active", login);
+    $("registerTab").classList.toggle("active", !login);
+    $("loginForm").style.display = login ? "block" : "none";
+    $("registerForm").style.display = login ? "none" : "block";
+  }
+
+  function money(value){
+    return (Number(value) || 0).toLocaleString("el-GR", {minimumFractionDigits:2, maximumFractionDigits:2}) + "€";
+  }
+
+  function escapeHtml(str){
+    return String(str || "").replace(/[&<>"']/g, m => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+    }[m]));
+  }
+
+  function dayTotal(r){
+    return (Number(r.w)||0) + (Number(r.l)||0) + (Number(r.s)||0) + (Number(r.e)||0);
+  }
+
+  function selectedMonth(){
+    return $("monthFilter").value || currentMonthISO();
+  }
+
+  function showDashboard(user){
+    currentUser = user;
+    $("authScreen").style.display = "none";
+    $("dashboard").style.display = "block";
+    $("welcome").textContent = "Τα μεροκάματα του/της " + user.username + " 👋";
+    $("userEmail").textContent = user.email;
+    $("date").value = todayISO();
+    render();
+  }
+
+  function showAuth(){
+    currentUser = null;
+    $("authScreen").style.display = "grid";
+    $("dashboard").style.display = "none";
+    setTab("login");
+  }
+
+  function getFilteredByMonth(records, month){
+    return records.filter(r => String(r.date || "").startsWith(month));
+  }
+
+  function uniqueMonths(records){
+    const months = new Set(records.map(r => String(r.date || "").slice(0,7)).filter(Boolean));
+    months.add(currentMonthISO());
+    return [...months].sort().reverse();
+  }
+
+  function fillMonthFilter(records){
+    const currentValue = $("monthFilter").value || currentMonthISO();
+    const months = uniqueMonths(records);
+
+    $("monthFilter").innerHTML = months.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(monthName(m))}</option>`).join("");
+
+    if(months.includes(currentValue)){
+      $("monthFilter").value = currentValue;
+    }else{
+      $("monthFilter").value = months[0] || currentMonthISO();
     }
+  }
 
-    window.deleteEntry = deleteEntry;
+  function calcStats(records){
+    let wage=0, loads=0, spawn=0, extra=0;
+    let wageDays=0, loadsDays=0, spawnDays=0, extraDays=0;
+    const workDates = new Set();
+    const offDates = new Set();
 
-    $("loginTab").addEventListener("click", () => setTab("login"));
-    $("registerTab").addEventListener("click", () => setTab("register"));
+    records.forEach(r => {
+      const w = Number(r.w)||0;
+      const l = Number(r.l)||0;
+      const s = Number(r.s)||0;
+      const e = Number(r.e)||0;
 
-    $("registerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const username = $("regUsername").value.trim();
-      const email = normalizeEmail($("regEmail").value);
-      const password = $("regPassword").value;
-
-      if(username.length < 3){
-        showMessage("Το username πρέπει να έχει τουλάχιστον 3 χαρακτήρες.", "err");
-        return;
-      }
-
-      if(password.length < 6){
-        showMessage("Το password πρέπει να έχει τουλάχιστον 6 χαρακτήρες.", "err");
-        return;
-      }
-
-      const users = getUsers();
-
-      if(users.some(u => normalizeEmail(u.email) === email)){
-        showMessage("Υπάρχει ήδη λογαριασμός με αυτό το email.", "err");
-        return;
-      }
-
-      if(users.some(u => String(u.username).toLowerCase() === username.toLowerCase())){
-        showMessage("Υπάρχει ήδη αυτό το username. Διάλεξε άλλο.", "err");
-        return;
-      }
-
-      const passwordHash = await hashPassword(password);
-      const user = {
-        id: Date.now().toString(),
-        username,
-        email,
-        passwordHash,
-        createdAt: new Date().toISOString()
-      };
-
-      users.push(user);
-      saveUsers(users);
-      localStorage.setItem(SESSION_KEY, user.id);
-
-      $("registerForm").reset();
-      showDashboard(user);
+      wage += w; loads += l; spawn += s; extra += e;
+      if(w > 0){ wageDays++; workDates.add(r.date); }
+      if(l > 0){ loadsDays++; }
+      if(s > 0){ spawnDays++; }
+      if(e > 0){ extraDays++; }
+      if(String(r.type).toLowerCase() === "ρεπό" || (w+l+s+e) === 0){ offDates.add(r.date); }
     });
 
-    $("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const grand = wage + loads + spawn + extra;
+    return {
+      wage, loads, spawn, extra, grand,
+      wageDays, loadsDays, spawnDays, extraDays,
+      workDays: workDates.size,
+      daysOff: offDates.size,
+      avg: workDates.size ? wage / workDates.size : 0,
+      categoryCount: wageDays + loadsDays + spawnDays + extraDays
+    };
+  }
 
-      const email = normalizeEmail($("loginEmail").value);
-      const password = $("loginPassword").value;
-      const passwordHash = await hashPassword(password);
+  function findBestMonth(records){
+    const totals = {};
+    records.forEach(r => {
+      const m = String(r.date || "").slice(0,7);
+      if(!m) return;
+      totals[m] = (totals[m] || 0) + dayTotal(r);
+    });
 
-      const user = getUsers().find(u => normalizeEmail(u.email) === email && u.passwordHash === passwordHash);
-
-      if(!user){
-        showMessage("Λάθος email ή password.", "err");
-        return;
+    let best = "-";
+    let value = 0;
+    Object.entries(totals).forEach(([m,total]) => {
+      if(total > value){
+        value = total;
+        best = monthName(m);
       }
-
-      localStorage.setItem(SESSION_KEY, user.id);
-      $("loginForm").reset();
-      showDashboard(user);
     });
+    return best;
+  }
 
-    $("entryForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      if(!currentUser) return;
+  function renderStats(monthRecords, allRecords){
+    const s = calcStats(monthRecords);
 
-      const entry = {
-        id: Date.now().toString(),
-        date: $("entryDate").value,
-        job: $("entryJob").value.trim(),
-        amount: Number($("entryAmount").value) || 0,
-        hours: $("entryHours").value,
-        paid: $("entryPaid").value,
-        expenses: Number($("entryExpenses").value) || 0,
-        notes: $("entryNotes").value.trim(),
-        createdAt: new Date().toISOString()
-      };
+    $("workDays").textContent = s.workDays;
+    $("daysOff").textContent = s.daysOff;
+    $("totalWage").textContent = money(s.wage);
+    $("totalLoads").textContent = money(s.loads);
+    $("totalSpawn").textContent = money(s.spawn);
+    $("totalExtra").textContent = money(s.extra);
+    $("grandTotal").textContent = money(s.grand);
+    $("netTotal").textContent = money(s.grand);
+    $("avgDay").textContent = money(s.avg);
 
-      const entries = getEntries(currentUser.id);
-      entries.push(entry);
-      saveEntries(currentUser.id, entries);
+    $("wageDays").textContent = s.wageDays + " μέρες";
+    $("loadsDays").textContent = s.loadsDays + " μέρες";
+    $("spawnDays").textContent = s.spawnDays + " μέρες";
+    $("extraDays").textContent = s.extraDays + " μέρες";
+    $("totalCategoryDays").textContent = s.categoryCount + " καταχωρήσεις";
+    $("bestMonth").textContent = findBestMonth(allRecords);
 
-      $("entryForm").reset();
-      $("entryDate").value = todayISO();
-      $("entryPaid").value = "yes";
-      renderEntries();
-    });
+    $("report").innerHTML = `
+      <h3>📊 ${escapeHtml(monthName(selectedMonth()))}</h3>
+      <p>Ημέρες Εργασίας: <b>${s.workDays}</b></p>
+      <p>Μεροκάματα: <b>${money(s.wage)}</b> (${s.wageDays} καταχωρήσεις)</p>
+      <p>Φορτία: <b>${money(s.loads)}</b> (${s.loadsDays} καταχωρήσεις)</p>
+      <p>Γόνος: <b>${money(s.spawn)}</b> (${s.spawnDays} καταχωρήσεις)</p>
+      <p>Διάφορα: <b>${money(s.extra)}</b> (${s.extraDays} καταχωρήσεις)</p>
+      <p>Γενικό Σύνολο: <b>${money(s.grand)}</b></p>
+    `;
+  }
 
-    $("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem(SESSION_KEY);
-      showAuth();
-    });
+  function renderTable(monthRecords){
+    const searchDate = $("searchDate").value;
+    let rows = monthRecords;
 
-    $("clearBtn").addEventListener("click", () => {
-      if(!currentUser) return;
-      const ok = confirm("Να σβηστούν όλα τα μεροκάματα αυτού του λογαριασμού;");
-      if(!ok) return;
-      saveEntries(currentUser.id, []);
-      renderEntries();
-    });
+    if(searchDate){
+      rows = rows.filter(r => r.date === searchDate);
+    }
 
-    $("exportBtn").addEventListener("click", () => {
-      if(!currentUser) return;
-      const entries = getEntries(currentUser.id);
-      const headers = ["Ημερομηνία","Δουλειά","Ποσό","Ώρες","Πληρώθηκε","Έξοδα","Σημειώσεις"];
-      const rows = entries.map(e => [e.date, e.job, e.amount, e.hours, e.paid === "yes" ? "Ναι" : "Όχι", e.expenses, e.notes]);
-      const csv = [headers, ...rows].map(row => row.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(",")).join("\n");
-      const blob = new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "merokamata.csv";
-      a.click();
-      URL.revokeObjectURL(url);
-    });
+    rows = [...rows].sort((a,b) => String(b.date).localeCompare(String(a.date)));
 
-    window.addEventListener("load", () => {
-      $("entryDate").value = todayISO();
+    $("emptyState").style.display = rows.length ? "none" : "block";
 
-      const oldSession = localStorage.getItem("mariglen_session_v1");
-      if(oldSession && !localStorage.getItem(SESSION_KEY)){
-        localStorage.setItem(SESSION_KEY, oldSession);
+    $("tableBody").innerHTML = rows.map(r => `
+      <tr>
+        <td>${escapeHtml(r.date)}</td>
+        <td><span class="type-badge">${escapeHtml(r.type || "Κανονικό")}</span></td>
+        <td>${money(r.w)}</td>
+        <td>${money(r.l)}</td>
+        <td>${money(r.s)}</td>
+        <td>${money(r.e)}</td>
+        <td><b>${money(dayTotal(r))}</b></td>
+        <td>${escapeHtml(r.n || "-")}</td>
+        <td>
+          <button class="btn secondary smallbtn" type="button" onclick="editRecord('${r.id}')">✏️</button>
+          <button class="btn danger smallbtn" type="button" onclick="deleteRecord('${r.id}')">🗑️</button>
+          <button class="btn warning smallbtn" type="button" onclick="deleteDay('${r.date}')">📅</button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function render(){
+    if(!currentUser) return;
+
+    const allRecords = getRecords(currentUser.id);
+    fillMonthFilter(allRecords);
+
+    const month = selectedMonth();
+    const monthRecords = getFilteredByMonth(allRecords, month);
+
+    renderStats(monthRecords, allRecords);
+    renderTable(monthRecords);
+    calculateRange(false);
+  }
+
+  function clearRecordForm(){
+    $("recordForm").reset();
+    $("date").value = todayISO();
+    $("wageType").value = "Κανονικό";
+  }
+
+  function addRecord(){
+    if(!currentUser) return;
+
+    const dateValue = $("date").value;
+    if(!dateValue){
+      alert("Συμπλήρωσε ημερομηνία");
+      return;
+    }
+
+    const record = {
+      id: Date.now().toString() + Math.random().toString(16).slice(2),
+      date: dateValue,
+      type: $("wageType").value || "Κανονικό",
+      w: Number($("wage").value) || 0,
+      l: Number($("loads").value) || 0,
+      s: Number($("spawn").value) || 0,
+      e: Number($("extra").value) || 0,
+      n: $("notes").value.trim(),
+      createdAt: new Date().toISOString()
+    };
+
+    const records = getRecords(currentUser.id);
+    records.push(record);
+    saveRecords(currentUser.id, records);
+
+    clearRecordForm();
+    $("monthFilter").value = dateValue.slice(0,7);
+    render();
+  }
+
+  function editRecord(id){
+    if(!currentUser) return;
+    const records = getRecords(currentUser.id);
+    const index = records.findIndex(r => r.id === id);
+    if(index < 0) return;
+
+    const r = records[index];
+
+    const dateValue = prompt("Ημερομηνία", r.date);
+    if(dateValue === null) return;
+
+    const typeValue = prompt("Είδος μεροκάματου", r.type || "Κανονικό");
+    if(typeValue === null) return;
+
+    const wageValue = prompt("Μεροκάματο", r.w);
+    if(wageValue === null) return;
+
+    const loadValue = prompt("Φορτία", r.l);
+    if(loadValue === null) return;
+
+    const spawnValue = prompt("Γόνος", r.s);
+    if(spawnValue === null) return;
+
+    const extraValue = prompt("Διάφορα", r.e);
+    if(extraValue === null) return;
+
+    const notesValue = prompt("Σημειώσεις", r.n || "");
+    if(notesValue === null) return;
+
+    records[index] = {
+      ...r,
+      date: dateValue || r.date,
+      type: typeValue || "Κανονικό",
+      w: Number(wageValue) || 0,
+      l: Number(loadValue) || 0,
+      s: Number(spawnValue) || 0,
+      e: Number(extraValue) || 0,
+      n: notesValue || ""
+    };
+
+    saveRecords(currentUser.id, records);
+    render();
+  }
+
+  function deleteRecord(id){
+    if(!currentUser) return;
+    if(!confirm("Να διαγραφεί η εγγραφή;")) return;
+
+    const records = getRecords(currentUser.id).filter(r => r.id !== id);
+    saveRecords(currentUser.id, records);
+    render();
+  }
+
+  function deleteDay(dateValue){
+    if(!currentUser) return;
+    if(!confirm("Να διαγραφούν όλες οι εγγραφές αυτής της ημέρας;")) return;
+
+    const records = getRecords(currentUser.id).filter(r => r.date !== dateValue);
+    saveRecords(currentUser.id, records);
+    render();
+  }
+
+  function deleteMonth(){
+    if(!currentUser) return;
+    const month = selectedMonth();
+    if(!month) return;
+    if(!confirm("Να διαγραφεί ολόκληρος ο μήνας " + monthName(month) + ";")) return;
+
+    const records = getRecords(currentUser.id).filter(r => !String(r.date || "").startsWith(month));
+    saveRecords(currentUser.id, records);
+    $("monthFilter").value = currentMonthISO();
+    render();
+  }
+
+  function calculateRange(showAlert){
+    if(!currentUser) return;
+
+    const from = $("rangeFrom").value;
+    const to = $("rangeTo").value;
+    let records = getRecords(currentUser.id);
+
+    if(from){ records = records.filter(r => r.date >= from); }
+    if(to){ records = records.filter(r => r.date <= to); }
+
+    const s = calcStats(records);
+
+    const title = from || to
+      ? `Από ${from || "αρχή"} έως ${to || "σήμερα"}`
+      : "Όλο το αρχείο";
+
+    $("rangeReport").innerHTML = `
+      <h3>💰 ${escapeHtml(title)}</h3>
+      <p>Μεροκάματα: <b>${money(s.wage)}</b></p>
+      <p>Φορτία: <b>${money(s.loads)}</b></p>
+      <p>Γόνος: <b>${money(s.spawn)}</b></p>
+      <p>Διάφορα: <b>${money(s.extra)}</b></p>
+      <p>Σύνολο: <b>${money(s.grand)}</b></p>
+    `;
+
+    if(showAlert && !records.length){
+      alert("Δεν βρέθηκαν καταχωρήσεις για αυτό το διάστημα.");
+    }
+  }
+
+  function exportCSV(){
+    if(!currentUser) return;
+    const records = getRecords(currentUser.id);
+
+    const headers = ["Ημερομηνία","Είδος Μεροκάματου","Μεροκάματο","Φορτία","Γόνος","Διάφορα","Σύνολο Ημέρας","Σημειώσεις"];
+    const rows = records.map(r => [r.date, r.type || "Κανονικό", r.w, r.l, r.s, r.e, dayTotal(r), r.n || ""]);
+    const csv = [headers, ...rows]
+      .map(row => row.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(","))
+      .join("\n");
+
+    const blob = new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "MyMussels.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function backupJSON(){
+    if(!currentUser) return;
+    const records = getRecords(currentUser.id);
+    const blob = new Blob([JSON.stringify(records, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "MyMussels_Backup.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function restoreJSON(event){
+    if(!currentUser) return;
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e){
+      try{
+        const data = JSON.parse(e.target.result);
+        if(!Array.isArray(data)){
+          alert("Το αρχείο backup δεν είναι σωστό.");
+          return;
+        }
+
+        const normalized = data.map(r => ({
+          id: r.id || Date.now().toString() + Math.random().toString(16).slice(2),
+          date: r.date || todayISO(),
+          type: r.type || "Κανονικό",
+          w: Number(r.w) || 0,
+          l: Number(r.l) || 0,
+          s: Number(r.s) || 0,
+          e: Number(r.e) || 0,
+          n: r.n || r.notes || "",
+          createdAt: r.createdAt || new Date().toISOString()
+        }));
+
+        saveRecords(currentUser.id, normalized);
+        render();
+        alert("Το backup φορτώθηκε με επιτυχία.");
+      }catch{
+        alert("Δεν μπόρεσα να διαβάσω το αρχείο.");
       }
+    };
+    reader.readAsText(file);
+    event.target.value = "";
+  }
 
-      const sessionId = localStorage.getItem(SESSION_KEY);
-      const user = getUsers().find(u => u.id === sessionId);
+  window.editRecord = editRecord;
+  window.deleteRecord = deleteRecord;
+  window.deleteDay = deleteDay;
 
-      if(user) showDashboard(user);
-      else showAuth();
-    });
-  </script>
+  $("loginTab").addEventListener("click", () => setTab("login"));
+  $("registerTab").addEventListener("click", () => setTab("register"));
+
+  $("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const username = $("regUsername").value.trim();
+    const email = normalizeEmail($("regEmail").value);
+    const password = $("regPassword").value;
+
+    if(username.length < 3){
+      showMessage("Το username πρέπει να έχει τουλάχιστον 3 χαρακτήρες.", "err");
+      return;
+    }
+
+    if(password.length < 6){
+      showMessage("Το password πρέπει να έχει τουλάχιστον 6 χαρακτήρες.", "err");
+      return;
+    }
+
+    const users = getUsers();
+
+    if(users.some(u => normalizeEmail(u.email) === email)){
+      showMessage("Υπάρχει ήδη λογαριασμός με αυτό το email.", "err");
+      return;
+    }
+
+    if(users.some(u => String(u.username).toLowerCase() === username.toLowerCase())){
+      showMessage("Υπάρχει ήδη αυτό το username. Διάλεξε άλλο.", "err");
+      return;
+    }
+
+    const passwordHash = await hashPassword(password);
+    const user = {
+      id: Date.now().toString(),
+      username,
+      email,
+      passwordHash,
+      createdAt: new Date().toISOString()
+    };
+
+    users.push(user);
+    saveUsers(users);
+    localStorage.setItem(SESSION_KEY, user.id);
+
+    $("registerForm").reset();
+    showDashboard(user);
+  });
+
+  $("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = normalizeEmail($("loginEmail").value);
+    const password = $("loginPassword").value;
+    const passwordHash = await hashPassword(password);
+
+    const user = getUsers().find(u => normalizeEmail(u.email) === email && u.passwordHash === passwordHash);
+
+    if(!user){
+      showMessage("Λάθος email ή password.", "err");
+      return;
+    }
+
+    localStorage.setItem(SESSION_KEY, user.id);
+    $("loginForm").reset();
+    showDashboard(user);
+  });
+
+  $("recordForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    addRecord();
+  });
+
+  $("resetFormBtn").addEventListener("click", clearRecordForm);
+  $("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem(SESSION_KEY);
+    showAuth();
+  });
+
+  $("monthFilter").addEventListener("change", render);
+  $("searchDate").addEventListener("change", render);
+  $("clearSearchBtn").addEventListener("click", () => {
+    $("searchDate").value = "";
+    render();
+  });
+
+  $("deleteMonthBtn").addEventListener("click", deleteMonth);
+  $("rangeBtn").addEventListener("click", () => calculateRange(true));
+  $("csvBtn").addEventListener("click", exportCSV);
+  $("backupBtn").addEventListener("click", backupJSON);
+  $("restoreFile").addEventListener("change", restoreJSON);
+  $("printBtn").addEventListener("click", () => window.print());
+
+  window.addEventListener("load", () => {
+    $("date").value = todayISO();
+
+    const oldSession = localStorage.getItem("mariglen_session_v1");
+    if(oldSession && !localStorage.getItem(SESSION_KEY)){
+      localStorage.setItem(SESSION_KEY, oldSession);
+    }
+
+    const sessionId = localStorage.getItem(SESSION_KEY);
+    const user = getUsers().find(u => u.id === sessionId);
+
+    if(user) showDashboard(user);
+    else showAuth();
+  });
+</script>
 </body>
 </html>
