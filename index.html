@@ -249,6 +249,18 @@
       font-size:12px;
       white-space:nowrap;
     }
+    .pay-badge{
+      display:inline-flex;
+      padding:5px 9px;
+      border-radius:999px;
+      font-weight:950;
+      font-size:12px;
+      white-space:nowrap;
+      border:1px solid transparent;
+    }
+    .ispaid{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.38);color:#bbf7d0}
+    .notpaid{background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.38);color:#fde68a}
+    .payhint{margin-top:10px;color:#cbd7ee;font-size:13px;line-height:1.45}
     .empty{color:var(--muted);padding:18px}
     .footer-note{margin-top:12px;color:var(--muted);font-size:12px;text-align:center}
 
@@ -293,6 +305,7 @@
         <p>Φτιάξε λογαριασμό και μετά μπαίνεις στο παλιό επαγγελματικό dashboard με όλα τα είδη καταχώρησης.</p>
         <div class="features">
           <div class="feature">✅ Μεροκάματο, Φορτία, Γόνος, Διάφορα</div>
+          <div class="feature">✅ Πληρωμένο / Απλήρωτο ανά ημέρα, είδος ή ολόκληρο μήνα</div>
           <div class="feature">✅ Είδος μεροκάματου</div>
           <div class="feature">✅ Αναφορά μήνα, καλύτερος μήνας, μέσο μεροκάματο</div>
           <div class="feature">✅ Backup / Restore / CSV / Εκτύπωση</div>
@@ -355,6 +368,8 @@
           <div class="stat"><span>Γόνος</span><b id="totalSpawn">0€</b><small id="spawnDays">0 μέρες</small></div>
           <div class="stat"><span>Διάφορα</span><b id="totalExtra">0€</b><small id="extraDays">0 μέρες</small></div>
           <div class="stat"><span>Συνολικά χρήματα</span><b id="grandTotal">0€</b><small id="totalCategoryDays">0 καταχωρήσεις</small></div>
+          <div class="stat"><span>Πληρωμένα</span><b id="paidTotal">0€</b><small id="paidCount">0 καταχωρήσεις</small></div>
+          <div class="stat"><span>Απλήρωτα</span><b id="unpaidTotal">0€</b><small id="unpaidCount">0 καταχωρήσεις</small></div>
           <div class="stat"><span>Καθαρό σύνολο</span><b id="netTotal">0€</b><small>Μεροκάματα + Φορτία + Γόνος + Διάφορα</small></div>
           <div class="stat"><span>Μέσο μεροκάματο</span><b id="avgDay">0€</b><small>Μόνο από μεροκάματα</small></div>
           <div class="stat"><span>Καλύτερος μήνας</span><b id="bestMonth">-</b><small>Με βάση το σύνολο</small></div>
@@ -382,6 +397,13 @@
                     <option value="Αργία">Αργία</option>
                     <option value="Ρεπό">Ρεπό</option>
                     <option value="Άλλο">Άλλο</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Πληρώθηκε;</label>
+                  <select id="paidStatus">
+                    <option value="no">Όχι</option>
+                    <option value="yes">Ναι</option>
                   </select>
                 </div>
                 <div>
@@ -439,6 +461,37 @@
             </div>
 
             <div class="panel" style="margin-top:18px">
+              <h3 class="section-title">✅ Πληρωμές</h3>
+              <p class="section-note">Μπορείς να δηλώσεις πληρωμένο μία συγκεκριμένη ημέρα και είδος μεροκάματου ή όλο τον μήνα.</p>
+              <div class="form-grid">
+                <div>
+                  <label>Ημερομηνία πληρωμής</label>
+                  <input type="date" id="paymentDate">
+                </div>
+                <div>
+                  <label>Είδος για πληρωμή</label>
+                  <select id="paymentType">
+                    <option value="__all">Όλα τα είδη αυτής της ημέρας</option>
+                    <option value="Κανονικό">Κανονικό</option>
+                    <option value="Μισό">Μισό</option>
+                    <option value="Ολόκληρο">Ολόκληρο</option>
+                    <option value="Νυχτερινό">Νυχτερινό</option>
+                    <option value="Κυριακή">Κυριακή</option>
+                    <option value="Αργία">Αργία</option>
+                    <option value="Ρεπό">Ρεπό</option>
+                    <option value="Άλλο">Άλλο</option>
+                  </select>
+                </div>
+              </div>
+              <div class="button-row">
+                <button id="markPaymentBtn" class="btn" type="button">✅ Πληρώθηκε ημέρα/είδος</button>
+                <button id="markMonthPaidBtn" class="btn warning" type="button">✅ Πληρώθηκε όλος ο μήνας</button>
+                <button id="markMonthUnpaidBtn" class="btn secondary" type="button">↩️ Ο μήνας απλήρωτος</button>
+              </div>
+              <div class="payhint">Για συγκεκριμένο είδος: βάλε ημερομηνία, διάλεξε είδος και πάτα “Πληρώθηκε ημέρα/είδος”.</div>
+            </div>
+
+            <div class="panel" style="margin-top:18px">
               <h3 class="section-title">💰 Σύνολα όλων των μηνών ή διαστήματος</h3>
               <p class="section-note">Δες σύνολο για όλο το αρχείο ή για συγκεκριμένες ημερομηνίες.</p>
               <div class="range-grid">
@@ -473,6 +526,7 @@
                   <th>Γόνος</th>
                   <th>Διάφορα</th>
                   <th>Σύνολο ημέρας</th>
+                  <th>Πληρώθηκε</th>
                   <th>Σημειώσεις</th>
                   <th>Ενέργειες</th>
                 </tr>
@@ -560,6 +614,7 @@
             s: Number(e.s) || 0,
             e: Number(e.e ?? e.expenses) || 0,
             n: [e.job, e.notes].filter(Boolean).join(" - "),
+            p: (e.p || e.paid) === "yes" ? "yes" : "no",
             createdAt: e.createdAt || new Date().toISOString()
           }));
           saveRecords(userId, records);
@@ -626,6 +681,7 @@
     $("welcome").textContent = "Τα μεροκάματα του/της " + user.username + " 👋";
     $("userEmail").textContent = user.email;
     $("date").value = todayISO();
+    $("paymentDate").value = todayISO();
     render();
   }
 
@@ -662,6 +718,7 @@
   function calcStats(records){
     let wage=0, loads=0, spawn=0, extra=0;
     let wageDays=0, loadsDays=0, spawnDays=0, extraDays=0;
+    let paidTotal=0, unpaidTotal=0, paidCount=0, unpaidCount=0;
     const workDates = new Set();
     const offDates = new Set();
 
@@ -670,18 +727,29 @@
       const l = Number(r.l)||0;
       const s = Number(r.s)||0;
       const e = Number(r.e)||0;
+      const total = w + l + s + e;
 
       wage += w; loads += l; spawn += s; extra += e;
       if(w > 0){ wageDays++; workDates.add(r.date); }
       if(l > 0){ loadsDays++; }
       if(s > 0){ spawnDays++; }
       if(e > 0){ extraDays++; }
-      if(String(r.type).toLowerCase() === "ρεπό" || (w+l+s+e) === 0){ offDates.add(r.date); }
+      if(total > 0){
+        if(r.p === "yes"){
+          paidTotal += total;
+          paidCount++;
+        }else{
+          unpaidTotal += total;
+          unpaidCount++;
+        }
+      }
+      if(String(r.type).toLowerCase() === "ρεπό" || total === 0){ offDates.add(r.date); }
     });
 
     const grand = wage + loads + spawn + extra;
     return {
       wage, loads, spawn, extra, grand,
+      paidTotal, unpaidTotal, paidCount, unpaidCount,
       wageDays, loadsDays, spawnDays, extraDays,
       workDays: workDates.size,
       daysOff: offDates.size,
@@ -719,6 +787,8 @@
     $("totalSpawn").textContent = money(s.spawn);
     $("totalExtra").textContent = money(s.extra);
     $("grandTotal").textContent = money(s.grand);
+    $("paidTotal").textContent = money(s.paidTotal);
+    $("unpaidTotal").textContent = money(s.unpaidTotal);
     $("netTotal").textContent = money(s.grand);
     $("avgDay").textContent = money(s.avg);
 
@@ -727,6 +797,8 @@
     $("spawnDays").textContent = s.spawnDays + " μέρες";
     $("extraDays").textContent = s.extraDays + " μέρες";
     $("totalCategoryDays").textContent = s.categoryCount + " καταχωρήσεις";
+    $("paidCount").textContent = s.paidCount + " καταχωρήσεις";
+    $("unpaidCount").textContent = s.unpaidCount + " καταχωρήσεις";
     $("bestMonth").textContent = findBestMonth(allRecords);
 
     $("report").innerHTML = `
@@ -737,6 +809,8 @@
       <p>Γόνος: <b>${money(s.spawn)}</b> (${s.spawnDays} καταχωρήσεις)</p>
       <p>Διάφορα: <b>${money(s.extra)}</b> (${s.extraDays} καταχωρήσεις)</p>
       <p>Γενικό Σύνολο: <b>${money(s.grand)}</b></p>
+      <p>Πληρωμένα: <b>${money(s.paidTotal)}</b> (${s.paidCount} καταχωρήσεις)</p>
+      <p>Απλήρωτα: <b>${money(s.unpaidTotal)}</b> (${s.unpaidCount} καταχωρήσεις)</p>
     `;
   }
 
@@ -761,8 +835,10 @@
         <td>${money(r.s)}</td>
         <td>${money(r.e)}</td>
         <td><b>${money(dayTotal(r))}</b></td>
+        <td><span class="pay-badge ${r.p === "yes" ? "ispaid" : "notpaid"}">${r.p === "yes" ? "Πληρώθηκε" : "Απλήρωτο"}</span></td>
         <td>${escapeHtml(r.n || "-")}</td>
         <td>
+          <button class="btn ${r.p === "yes" ? "secondary" : "warning"} smallbtn" type="button" onclick="togglePaid('${r.id}')">${r.p === "yes" ? "↩️" : "✅"}</button>
           <button class="btn secondary smallbtn" type="button" onclick="editRecord('${r.id}')">✏️</button>
           <button class="btn danger smallbtn" type="button" onclick="deleteRecord('${r.id}')">🗑️</button>
           <button class="btn warning smallbtn" type="button" onclick="deleteDay('${r.date}')">📅</button>
@@ -789,6 +865,7 @@
     $("recordForm").reset();
     $("date").value = todayISO();
     $("wageType").value = "Κανονικό";
+    $("paidStatus").value = "no";
   }
 
   function addRecord(){
@@ -809,6 +886,7 @@
       s: Number($("spawn").value) || 0,
       e: Number($("extra").value) || 0,
       n: $("notes").value.trim(),
+      p: $("paidStatus").value || "no",
       createdAt: new Date().toISOString()
     };
 
@@ -850,6 +928,9 @@
     const notesValue = prompt("Σημειώσεις", r.n || "");
     if(notesValue === null) return;
 
+    const paidValue = prompt("Πληρώθηκε; γράψε Ναι ή Όχι", r.p === "yes" ? "Ναι" : "Όχι");
+    if(paidValue === null) return;
+
     records[index] = {
       ...r,
       date: dateValue || r.date,
@@ -858,8 +939,76 @@
       l: Number(loadValue) || 0,
       s: Number(spawnValue) || 0,
       e: Number(extraValue) || 0,
-      n: notesValue || ""
+      n: notesValue || "",
+      p: ["ναι", "nai", "yes", "y"].includes(String(paidValue).trim().toLowerCase()) ? "yes" : "no"
     };
+
+    saveRecords(currentUser.id, records);
+    render();
+  }
+
+  function togglePaid(id){
+    if(!currentUser) return;
+    const records = getRecords(currentUser.id);
+    const index = records.findIndex(r => r.id === id);
+    if(index < 0) return;
+    records[index].p = records[index].p === "yes" ? "no" : "yes";
+    saveRecords(currentUser.id, records);
+    render();
+  }
+
+  function markPaymentForDayAndType(){
+    if(!currentUser) return;
+    const dateValue = $("paymentDate").value;
+    const typeValue = $("paymentType").value;
+
+    if(!dateValue){
+      alert("Διάλεξε ημερομηνία πληρωμής.");
+      return;
+    }
+
+    const records = getRecords(currentUser.id);
+    let count = 0;
+
+    records.forEach(r => {
+      const sameDate = r.date === dateValue;
+      const sameType = typeValue === "__all" || (r.type || "Κανονικό") === typeValue;
+      if(sameDate && sameType){
+        r.p = "yes";
+        count++;
+      }
+    });
+
+    if(!count){
+      alert("Δεν βρέθηκε καταχώρηση για αυτή την ημέρα και αυτό το είδος.");
+      return;
+    }
+
+    saveRecords(currentUser.id, records);
+    render();
+    alert("Σημειώθηκαν ως πληρωμένες " + count + " καταχωρήσεις.");
+  }
+
+  function markMonthPayment(status){
+    if(!currentUser) return;
+    const month = selectedMonth();
+    const records = getRecords(currentUser.id);
+    let count = 0;
+
+    records.forEach(r => {
+      if(String(r.date || "").startsWith(month)){
+        r.p = status;
+        count++;
+      }
+    });
+
+    if(!count){
+      alert("Δεν υπάρχουν καταχωρήσεις για αυτόν τον μήνα.");
+      return;
+    }
+
+    const actionText = status === "yes" ? "πληρωμένος" : "απλήρωτος";
+    if(!confirm("Να σημειωθεί ο μήνας " + monthName(month) + " ως " + actionText + ";")) return;
 
     saveRecords(currentUser.id, records);
     render();
@@ -918,6 +1067,8 @@
       <p>Γόνος: <b>${money(s.spawn)}</b></p>
       <p>Διάφορα: <b>${money(s.extra)}</b></p>
       <p>Σύνολο: <b>${money(s.grand)}</b></p>
+      <p>Πληρωμένα: <b>${money(s.paidTotal)}</b></p>
+      <p>Απλήρωτα: <b>${money(s.unpaidTotal)}</b></p>
     `;
 
     if(showAlert && !records.length){
@@ -929,8 +1080,8 @@
     if(!currentUser) return;
     const records = getRecords(currentUser.id);
 
-    const headers = ["Ημερομηνία","Είδος Μεροκάματου","Μεροκάματο","Φορτία","Γόνος","Διάφορα","Σύνολο Ημέρας","Σημειώσεις"];
-    const rows = records.map(r => [r.date, r.type || "Κανονικό", r.w, r.l, r.s, r.e, dayTotal(r), r.n || ""]);
+    const headers = ["Ημερομηνία","Είδος Μεροκάματου","Μεροκάματο","Φορτία","Γόνος","Διάφορα","Σύνολο Ημέρας","Πληρώθηκε","Σημειώσεις"];
+    const rows = records.map(r => [r.date, r.type || "Κανονικό", r.w, r.l, r.s, r.e, dayTotal(r), r.p === "yes" ? "Ναι" : "Όχι", r.n || ""]);
     const csv = [headers, ...rows]
       .map(row => row.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(","))
       .join("\n");
@@ -979,6 +1130,7 @@
           s: Number(r.s) || 0,
           e: Number(r.e) || 0,
           n: r.n || r.notes || "",
+          p: (r.p || r.paid) === "yes" ? "yes" : "no",
           createdAt: r.createdAt || new Date().toISOString()
         }));
 
@@ -996,6 +1148,7 @@
   window.editRecord = editRecord;
   window.deleteRecord = deleteRecord;
   window.deleteDay = deleteDay;
+  window.togglePaid = togglePaid;
 
   $("loginTab").addEventListener("click", () => setTab("login"));
   $("registerTab").addEventListener("click", () => setTab("register"));
@@ -1084,6 +1237,9 @@
   });
 
   $("deleteMonthBtn").addEventListener("click", deleteMonth);
+  $("markPaymentBtn").addEventListener("click", markPaymentForDayAndType);
+  $("markMonthPaidBtn").addEventListener("click", () => markMonthPayment("yes"));
+  $("markMonthUnpaidBtn").addEventListener("click", () => markMonthPayment("no"));
   $("rangeBtn").addEventListener("click", () => calculateRange(true));
   $("csvBtn").addEventListener("click", exportCSV);
   $("backupBtn").addEventListener("click", backupJSON);
