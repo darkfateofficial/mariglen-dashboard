@@ -3,81 +3,109 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mariglen Dashboard - Login</title>
+  <title>Mariglen Dashboard - Merokamata</title>
   <style>
     :root{
-      --bg:#0b1020; --card:#121a33; --card2:#0f1730; --text:#eef3ff; --muted:#9aa8c7;
-      --accent:#7c3aed; --accent2:#22c55e; --danger:#ef4444; --border:#263454;
+      --bg:#080d1c; --card:#121a33; --card2:#0f1730; --text:#eef3ff; --muted:#9aa8c7;
+      --accent:#7c3aed; --accentB:#2563eb; --ok:#22c55e; --danger:#ef4444; --border:#263454;
+      --input:#081024;
     }
     *{box-sizing:border-box}
     body{
       margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:radial-gradient(circle at top,#1b2550 0,#0b1020 45%,#060913 100%);
-      color:var(--text); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+      color:var(--text); min-height:100vh; padding:24px;
     }
-    .wrap{width:min(980px,100%);}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-    .brand{font-size:26px;font-weight:800;letter-spacing:.2px}
+    .wrap{width:min(1120px,100%); margin:0 auto}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0}
+    .brand{font-size:26px;font-weight:900;letter-spacing:.2px}
     .badge{color:#c4b5fd;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.35);padding:8px 12px;border-radius:999px;font-size:13px}
-    .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}
+    .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:18px;align-items:start}
     .card{
-      background:rgba(18,26,51,.92); border:1px solid var(--border); border-radius:22px;
+      background:rgba(18,26,51,.94); border:1px solid var(--border); border-radius:22px;
       box-shadow:0 20px 80px rgba(0,0,0,.35); overflow:hidden;
     }
-    .hero{padding:28px}
+    .hero,.auth,.dashbox{padding:24px}
     .hero h1{font-size:38px;line-height:1.05;margin:0 0 12px}
-    .hero p{color:var(--muted);line-height:1.55;margin:0 0 22px}
-    .features{display:grid;gap:10px}
+    .hero p,.small{color:var(--muted);line-height:1.55}
+    .features{display:grid;gap:10px;margin-top:18px}
     .feature{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:12px;color:#dbe6ff}
-    .auth{padding:22px}
     .tabs{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:5px;margin-bottom:18px}
-    .tab{flex:1;border:0;border-radius:12px;padding:12px;color:var(--muted);background:transparent;font-weight:700;cursor:pointer}
+    .tab{flex:1;border:0;border-radius:12px;padding:12px;color:var(--muted);background:transparent;font-weight:800;cursor:pointer}
     .tab.active{background:var(--accent);color:white}
-    label{display:block;color:#d6def3;font-size:14px;font-weight:700;margin:13px 0 7px}
-    input{
-      width:100%;padding:14px;border-radius:14px;border:1px solid var(--border);background:#081024;color:var(--text);
+    label{display:block;color:#d6def3;font-size:14px;font-weight:800;margin:13px 0 7px}
+    input, textarea, select{
+      width:100%;padding:13px;border-radius:14px;border:1px solid var(--border);background:var(--input);color:var(--text);
       outline:none;font-size:15px;
     }
-    input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.18)}
+    textarea{min-height:92px;resize:vertical}
+    input:focus,textarea:focus,select:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.18)}
     .btn{
-      width:100%;border:0;border-radius:14px;padding:14px 16px;margin-top:16px;background:linear-gradient(135deg,var(--accent),#2563eb);
-      color:white;font-weight:800;font-size:15px;cursor:pointer;
+      border:0;border-radius:14px;padding:13px 16px;background:linear-gradient(135deg,var(--accent),var(--accentB));
+      color:white;font-weight:900;font-size:15px;cursor:pointer;
     }
-    .btn.secondary{background:#1f2937;border:1px solid var(--border)}
+    .btn.full{width:100%;margin-top:16px}
+    .btn.secondary{background:#334155;border:1px solid var(--border)}
+    .btn.danger{background:#7f1d1d;border:1px solid rgba(239,68,68,.35)}
     .msg{margin-top:12px;padding:12px;border-radius:14px;display:none;font-size:14px;line-height:1.4}
     .msg.ok{display:block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#bbf7d0}
     .msg.err{display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#fecaca}
-    .small{color:var(--muted);font-size:13px;line-height:1.45;margin-top:14px}
     .dashboard{display:none}
-    .dashbox{padding:26px}
-    .dashhead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
-    .dashhead h2{margin:0;font-size:28px}
-    .logout{width:auto;margin:0;padding:10px 14px;background:#334155;border:1px solid var(--border)}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .dashhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+    .dashhead h2{margin:0;font-size:30px}
+    .dash-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
     .stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:16px}
-    .stat b{display:block;font-size:24px;margin-top:6px}
-    .admin{margin-top:18px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:16px}
-    .userrow{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--border);padding:10px 0;color:#dbe6ff}
-    @media(max-width:800px){.grid{grid-template-columns:1fr}.hero h1{font-size:30px}.stats{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
+    .stat span{color:var(--muted);font-size:13px;font-weight:800}
+    .stat b{display:block;font-size:23px;margin-top:6px}
+    .dashgrid{display:grid;grid-template-columns:.9fr 1.2fr;gap:18px}
+    .section-title{font-size:20px;font-weight:900;margin:0 0 12px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .tablewrap{overflow:auto;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.03)}
+    table{width:100%;border-collapse:collapse;min-width:720px}
+    th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    th{color:#cbd5e1;font-size:13px;background:rgba(255,255,255,.04)}
+    td{color:#eef3ff;font-size:14px}
+    tr:last-child td{border-bottom:0}
+    .pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}
+    .paid{background:rgba(34,197,94,.14);color:#bbf7d0;border:1px solid rgba(34,197,94,.35)}
+    .unpaid{background:rgba(245,158,11,.14);color:#fde68a;border:1px solid rgba(245,158,11,.35)}
+    .empty{color:var(--muted);padding:18px}
+    .note-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:12px}
+    .footer-text{margin-top:14px;color:var(--muted);font-size:12px}
+    @media(max-width:900px){
+      body{padding:14px}
+      .grid,.dashgrid{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr 1fr}
+      .hero h1{font-size:30px}
+      .dashhead{flex-direction:column}
+      .dash-actions{justify-content:flex-start}
+    }
+    @media(max-width:520px){
+      .stats{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+      .brand{font-size:22px}
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <div class="top">
       <div class="brand">Mariglen Dashboard</div>
-      <div class="badge">Login / Register System</div>
+      <div class="badge">Merokamata / Login System</div>
     </div>
 
     <section id="authScreen" class="grid">
       <div class="card hero">
         <h1>Καλώς ήρθες 👋</h1>
-        <p>Φτιάξε λογαριασμό με email, username και password. Το ίδιο email δεν μπορεί να χρησιμοποιηθεί δεύτερη φορά.</p>
+        <p>Φτιάξε λογαριασμό και μετά μπαίνεις στη σελίδα για να γράφεις τα μεροκάματα, πληρωμές, έξοδα και σημειώσεις.</p>
         <div class="features">
-          <div class="feature">✅ Register με email, username, password</div>
-          <div class="feature">✅ Έλεγχος για διπλό email</div>
-          <div class="feature">✅ Login και προσωπικό dashboard</div>
+          <div class="feature">✅ Εγγραφή με email, username, password</div>
+          <div class="feature">✅ Δεν αφήνει δεύτερο λογαριασμό με ίδιο email</div>
+          <div class="feature">✅ Σε πάει κατευθείαν στη σελίδα με τα μεροκάματα</div>
+          <div class="feature">✅ Τα στοιχεία κρατιούνται ξεχωριστά ανά λογαριασμό</div>
         </div>
-        <p class="small">Σημείωση: Αυτή η έκδοση αποθηκεύει τους λογαριασμούς τοπικά στον browser για GitHub Pages demo.</p>
+        <p class="footer-text">Demo σε GitHub Pages: τα δεδομένα αποθηκεύονται στον browser.</p>
       </div>
 
       <div class="card auth">
@@ -91,7 +119,7 @@
           <input id="loginEmail" type="email" placeholder="example@email.com" autocomplete="email" required>
           <label>Password</label>
           <input id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password" required>
-          <button class="btn" type="submit">Μπες στον λογαριασμό</button>
+          <button class="btn full" type="submit">Μπες στον λογαριασμό</button>
         </form>
 
         <form id="registerForm" style="display:none">
@@ -101,43 +129,110 @@
           <input id="regEmail" type="email" placeholder="example@email.com" autocomplete="email" required>
           <label>Password</label>
           <input id="regPassword" type="password" placeholder="Τουλάχιστον 6 χαρακτήρες" autocomplete="new-password" minlength="6" required>
-          <button class="btn" type="submit">Δημιουργία λογαριασμού</button>
+          <button class="btn full" type="submit">Δημιουργία λογαριασμού</button>
         </form>
 
         <div id="message" class="msg"></div>
-        <div class="small">Δεν επιτρέπεται δεύτερος λογαριασμός με το ίδιο email.</div>
       </div>
     </section>
 
-    <section id="dashboard" class="card dashboard">
-      <div class="dashbox">
+    <section id="dashboard" class="dashboard">
+      <div class="card dashbox">
         <div class="dashhead">
           <div>
-            <h2 id="welcome">Dashboard</h2>
+            <h2 id="welcome">Τα μεροκάματά μου</h2>
             <div id="userEmail" class="small"></div>
           </div>
-          <button id="logoutBtn" class="btn logout" type="button">Αποσύνδεση</button>
+          <div class="dash-actions">
+            <button id="exportBtn" class="btn secondary" type="button">Export CSV</button>
+            <button id="clearBtn" class="btn danger" type="button">Καθαρισμός</button>
+            <button id="logoutBtn" class="btn secondary" type="button">Αποσύνδεση</button>
+          </div>
         </div>
-
-        <p class="small">Εδώ μπορείς να βάλεις τα δικά σου στοιχεία, πρόγραμμα, βαθμούς, tasks ή ό,τι dashboard θέλεις.</p>
 
         <div class="stats">
-          <div class="stat">Σύνολο λογαριασμών <b id="totalUsers">0</b></div>
-          <div class="stat">Κατάσταση <b>Online</b></div>
-          <div class="stat">Σελίδα <b>Live</b></div>
+          <div class="stat"><span>Σύνολο μεροκάματων</span><b id="totalAmount">0€</b></div>
+          <div class="stat"><span>Πληρωμένα</span><b id="paidAmount">0€</b></div>
+          <div class="stat"><span>Απλήρωτα</span><b id="unpaidAmount">0€</b></div>
+          <div class="stat"><span>Έξοδα</span><b id="expensesAmount">0€</b></div>
         </div>
 
-        <div class="admin">
-          <b>Registered users</b>
-          <div id="usersList" style="margin-top:10px"></div>
+        <div class="dashgrid">
+          <div>
+            <div class="note-card">
+              <h3 class="section-title">Νέο μεροκάματο</h3>
+              <form id="entryForm">
+                <label>Ημερομηνία</label>
+                <input id="entryDate" type="date" required>
+
+                <label>Δουλειά / Περιγραφή</label>
+                <input id="entryJob" type="text" placeholder="π.χ. οικοδομή, delivery, συνεργείο" required>
+
+                <div class="row">
+                  <div>
+                    <label>Ποσό μεροκάματου (€)</label>
+                    <input id="entryAmount" type="number" min="0" step="0.01" placeholder="50" required>
+                  </div>
+                  <div>
+                    <label>Ώρες</label>
+                    <input id="entryHours" type="number" min="0" step="0.25" placeholder="8">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div>
+                    <label>Πληρώθηκε;</label>
+                    <select id="entryPaid">
+                      <option value="yes">Ναι</option>
+                      <option value="no">Όχι</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Έξοδα (€)</label>
+                    <input id="entryExpenses" type="number" min="0" step="0.01" placeholder="0">
+                  </div>
+                </div>
+
+                <label>Σημειώσεις / Άλλα</label>
+                <textarea id="entryNotes" placeholder="π.χ. πήρα προκαταβολή, χρωστάει, υλικά, βενζίνες..."></textarea>
+
+                <button class="btn full" type="submit">Αποθήκευση</button>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <div class="note-card" style="margin-top:0">
+              <h3 class="section-title">Λίστα μεροκάματων</h3>
+              <div class="tablewrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ημερομηνία</th>
+                      <th>Δουλειά</th>
+                      <th>Ποσό</th>
+                      <th>Ώρες</th>
+                      <th>Έξοδα</th>
+                      <th>Κατάσταση</th>
+                      <th>Σημειώσεις</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="entriesBody"></tbody>
+                </table>
+                <div id="emptyState" class="empty">Δεν έχεις γράψει ακόμα μεροκάματο.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <script>
-    const USERS_KEY = "mariglen_users_v1";
-    const SESSION_KEY = "mariglen_session_v1";
+    const USERS_KEY = "mariglen_users_v2";
+    const OLD_USERS_KEY = "mariglen_users_v1";
+    const SESSION_KEY = "mariglen_session_v2";
 
     const $ = (id) => document.getElementById(id);
 
@@ -145,13 +240,43 @@
       return String(email || "").trim().toLowerCase();
     }
 
+    function todayISO(){
+      const d = new Date();
+      d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+      return d.toISOString().slice(0,10);
+    }
+
     function getUsers(){
-      try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
-      catch { return []; }
+      try {
+        let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+        if(!users.length){
+          const oldUsers = JSON.parse(localStorage.getItem(OLD_USERS_KEY)) || [];
+          if(oldUsers.length){
+            users = oldUsers;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+          }
+        }
+        return users;
+      } catch {
+        return [];
+      }
     }
 
     function saveUsers(users){
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function entriesKey(userId){
+      return "mariglen_entries_" + userId;
+    }
+
+    function getEntries(userId){
+      try { return JSON.parse(localStorage.getItem(entriesKey(userId))) || []; }
+      catch { return []; }
+    }
+
+    function saveEntries(userId, entries){
+      localStorage.setItem(entriesKey(userId), JSON.stringify(entries));
     }
 
     async function hashPassword(password){
@@ -181,33 +306,83 @@
       $("registerForm").style.display = login ? "none" : "block";
     }
 
+    function escapeHtml(str){
+      return String(str || "").replace(/[&<>"']/g, m => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+      }[m]));
+    }
+
+    function money(n){
+      return (Number(n) || 0).toLocaleString("el-GR", {minimumFractionDigits:2, maximumFractionDigits:2}) + "€";
+    }
+
+    let currentUser = null;
+
     function showDashboard(user){
+      currentUser = user;
       $("authScreen").style.display = "none";
       $("dashboard").style.display = "block";
-      $("welcome").textContent = "Καλώς ήρθες, " + user.username + " 👋";
+      $("welcome").textContent = "Τα μεροκάματα του/της " + user.username + " 👋";
       $("userEmail").textContent = user.email;
-
-      const users = getUsers();
-      $("totalUsers").textContent = users.length;
-      $("usersList").innerHTML = users.map(u => `
-        <div class="userrow">
-          <span>${escapeHtml(u.username)}</span>
-          <span>${escapeHtml(u.email)}</span>
-        </div>
-      `).join("") || "<div class='small'>Δεν υπάρχουν χρήστες ακόμα.</div>";
+      $("entryDate").value = todayISO();
+      renderEntries();
     }
 
     function showAuth(){
+      currentUser = null;
       $("authScreen").style.display = "grid";
       $("dashboard").style.display = "none";
       setTab("login");
     }
 
-    function escapeHtml(str){
-      return String(str).replace(/[&<>"']/g, m => ({
-        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
-      }[m]));
+    function renderEntries(){
+      if(!currentUser) return;
+      const entries = getEntries(currentUser.id).sort((a,b) => String(b.date).localeCompare(String(a.date)));
+      const body = $("entriesBody");
+      const empty = $("emptyState");
+
+      let total = 0, paid = 0, unpaid = 0, expenses = 0;
+
+      for(const e of entries){
+        const amount = Number(e.amount) || 0;
+        const exp = Number(e.expenses) || 0;
+        total += amount;
+        expenses += exp;
+        if(e.paid === "yes") paid += amount;
+        else unpaid += amount;
+      }
+
+      $("totalAmount").textContent = money(total);
+      $("paidAmount").textContent = money(paid);
+      $("unpaidAmount").textContent = money(unpaid);
+      $("expensesAmount").textContent = money(expenses);
+
+      empty.style.display = entries.length ? "none" : "block";
+
+      body.innerHTML = entries.map(e => `
+        <tr>
+          <td>${escapeHtml(e.date)}</td>
+          <td>${escapeHtml(e.job)}</td>
+          <td><b>${money(e.amount)}</b></td>
+          <td>${escapeHtml(e.hours || "-")}</td>
+          <td>${money(e.expenses)}</td>
+          <td><span class="pill ${e.paid === "yes" ? "paid" : "unpaid"}">${e.paid === "yes" ? "Πληρώθηκε" : "Απλήρωτο"}</span></td>
+          <td>${escapeHtml(e.notes || "-")}</td>
+          <td><button class="btn danger" type="button" onclick="deleteEntry('${e.id}')">Σβήσιμο</button></td>
+        </tr>
+      `).join("");
     }
+
+    function deleteEntry(id){
+      if(!currentUser) return;
+      const ok = confirm("Να σβηστεί αυτό το μεροκάματο;");
+      if(!ok) return;
+      const entries = getEntries(currentUser.id).filter(e => e.id !== id);
+      saveEntries(currentUser.id, entries);
+      renderEntries();
+    }
+
+    window.deleteEntry = deleteEntry;
 
     $("loginTab").addEventListener("click", () => setTab("login"));
     $("registerTab").addEventListener("click", () => setTab("register"));
@@ -231,12 +406,12 @@
 
       const users = getUsers();
 
-      if(users.some(u => u.email === email)){
+      if(users.some(u => normalizeEmail(u.email) === email)){
         showMessage("Υπάρχει ήδη λογαριασμός με αυτό το email.", "err");
         return;
       }
 
-      if(users.some(u => u.username.toLowerCase() === username.toLowerCase())){
+      if(users.some(u => String(u.username).toLowerCase() === username.toLowerCase())){
         showMessage("Υπάρχει ήδη αυτό το username. Διάλεξε άλλο.", "err");
         return;
       }
@@ -254,8 +429,8 @@
       saveUsers(users);
       localStorage.setItem(SESSION_KEY, user.id);
 
-      showMessage("Ο λογαριασμός δημιουργήθηκε με επιτυχία!", "ok");
-      setTimeout(() => showDashboard(user), 500);
+      $("registerForm").reset();
+      showDashboard(user);
     });
 
     $("loginForm").addEventListener("submit", async (e) => {
@@ -265,7 +440,7 @@
       const password = $("loginPassword").value;
       const passwordHash = await hashPassword(password);
 
-      const user = getUsers().find(u => u.email === email && u.passwordHash === passwordHash);
+      const user = getUsers().find(u => normalizeEmail(u.email) === email && u.passwordHash === passwordHash);
 
       if(!user){
         showMessage("Λάθος email ή password.", "err");
@@ -273,7 +448,34 @@
       }
 
       localStorage.setItem(SESSION_KEY, user.id);
+      $("loginForm").reset();
       showDashboard(user);
+    });
+
+    $("entryForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if(!currentUser) return;
+
+      const entry = {
+        id: Date.now().toString(),
+        date: $("entryDate").value,
+        job: $("entryJob").value.trim(),
+        amount: Number($("entryAmount").value) || 0,
+        hours: $("entryHours").value,
+        paid: $("entryPaid").value,
+        expenses: Number($("entryExpenses").value) || 0,
+        notes: $("entryNotes").value.trim(),
+        createdAt: new Date().toISOString()
+      };
+
+      const entries = getEntries(currentUser.id);
+      entries.push(entry);
+      saveEntries(currentUser.id, entries);
+
+      $("entryForm").reset();
+      $("entryDate").value = todayISO();
+      $("entryPaid").value = "yes";
+      renderEntries();
     });
 
     $("logoutBtn").addEventListener("click", () => {
@@ -281,9 +483,40 @@
       showAuth();
     });
 
+    $("clearBtn").addEventListener("click", () => {
+      if(!currentUser) return;
+      const ok = confirm("Να σβηστούν όλα τα μεροκάματα αυτού του λογαριασμού;");
+      if(!ok) return;
+      saveEntries(currentUser.id, []);
+      renderEntries();
+    });
+
+    $("exportBtn").addEventListener("click", () => {
+      if(!currentUser) return;
+      const entries = getEntries(currentUser.id);
+      const headers = ["Ημερομηνία","Δουλειά","Ποσό","Ώρες","Πληρώθηκε","Έξοδα","Σημειώσεις"];
+      const rows = entries.map(e => [e.date, e.job, e.amount, e.hours, e.paid === "yes" ? "Ναι" : "Όχι", e.expenses, e.notes]);
+      const csv = [headers, ...rows].map(row => row.map(v => `"${String(v ?? "").replaceAll('"','""')}"`).join(",")).join("\n");
+      const blob = new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "merokamata.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
     window.addEventListener("load", () => {
+      $("entryDate").value = todayISO();
+
+      const oldSession = localStorage.getItem("mariglen_session_v1");
+      if(oldSession && !localStorage.getItem(SESSION_KEY)){
+        localStorage.setItem(SESSION_KEY, oldSession);
+      }
+
       const sessionId = localStorage.getItem(SESSION_KEY);
       const user = getUsers().find(u => u.id === sessionId);
+
       if(user) showDashboard(user);
       else showAuth();
     });
